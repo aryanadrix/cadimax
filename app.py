@@ -6,12 +6,13 @@ app = Flask(__name__)
 app.secret_key = "chave_super_secreta"
 
 # Configuração do PostgreSQL (ajusta com as tuas credenciais)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:bBshVLxaJHketVuDYxmUDPGYkpexUmPG@postgres.railway.internal:5432/railway'
-
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 
 if os.environ.get('RAILWAY_ENVIRONMENT'):
     # 🚀 No Railway (produção)
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+    app.config[
+        'SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:bBshVLxaJHketVuDYxmUDPGYkpexUmPG@postgres.railway.internal:5432/railway'
+
 else:
     # 💻 No teu computador (desenvolvimento)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///local.db'
