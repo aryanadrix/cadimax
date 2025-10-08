@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/cadimax.iml" filepath="$PROJECT_DIR$/.idea/cadimax.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/data_warehouse.iml" filepath="$PROJECT_DIR$/.idea/data_warehouse.iml" />
     </modules>
   </component>
 </project>

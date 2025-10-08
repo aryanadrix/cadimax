@@ -3,25 +3,92 @@
 {% block titulo %}Início{% endblock %}
 
 {% block conteudo %}
-<div class="container-fluid py-5">
-  <div class="d-flex flex-column flex-md-row align-items-center justify-content-center text-center text-md-start"
-       style="gap:2rem;"> <!--min-height:70vh;-->
+<div class="position-relative" style="height: 78vh; overflow: hidden;">
 
-    <!-- Logotipo -->
-    <div>
-      <img src="{{ url_for('static', filename='img/logo_pr.png') }}"
-           class="img-fluid logo-hero"
-           alt="Logotipo"
-           style="max-width:380px;">
+  <!-- 🔹 Slider de imagens (com fundo escurecido) -->
+  <div id="heroCarousel" class="carousel slide carousel-fade h-100" data-bs-ride="carousel" data-bs-interval="2000">
+    <div class="carousel-inner h-100">
+
+      <div class="carousel-item active h-100 position-relative">
+        <img src="{{ url_for('static', filename='img/banner1.jpg') }}" class="d-block w-100 h-100 object-fit-cover" alt="Slide 1">
+        <div class="overlay"></div>
+      </div>
+
+      <div class="carousel-item h-100 position-relative">
+        <img src="{{ url_for('static', filename='img/banner2.jpg') }}" class="d-block w-100 h-100 object-fit-cover" alt="Slide 2">
+        <div class="overlay"></div>
+      </div>
+
+      <div class="carousel-item h-100 position-relative">
+        <img src="{{ url_for('static', filename='img/banner3.jpg') }}" class="d-block w-100 h-100 object-fit-cover" alt="Slide 3">
+        <div class="overlay"></div>
+      </div>
+
+      <div class="carousel-item h-100 position-relative">
+        <img src="{{ url_for('static', filename='img/banner4.jpg') }}" class="d-block w-100 h-100 object-fit-cover" alt="Slide 4">
+        <div class="overlay"></div>
+      </div>
+
+      <div class="carousel-item h-100 position-relative">
+        <img src="{{ url_for('static', filename='img/banner5.jpg') }}" class="d-block w-100 h-100 object-fit-cover" alt="Slide 5">
+        <div class="overlay"></div>
+      </div>
+
+
+
     </div>
 
-    <!-- Título -->
-    <div>
-      <h1 class="fw-bold text-black text-uppercase mb-0"
-          style="letter-spacing:.15em; line-height:1.25;">
-        Campanha de Distribuição&nbsp;Massiva<br>de Mosquiteiros
-      </h1>
-    </div>
+    <!-- 🔹 Controles (setas) -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Próximo</span>
+    </button>
   </div>
+
+  <!-- 🔹 Conteúdo fixo sobre o slide -->
+  <div class="position-absolute top-50 start-50 translate-middle text-center text-white" style="z-index: 5;">
+    <!--img src="{{ url_for('static', filename='img/logo_pr.png') }}" alt="Logotipo"
+         class="img-fluid mb-3" style="max-width: 240px; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.7));"-->
+    <h1 class="fw-bold text-uppercase"
+        style="text-shadow: 0 3px 8px rgba(0,0,0,0.8); letter-spacing: .1em;">
+      Campanha de Distribuição Massiva<br>de Mosquiteiros
+    </h1>
+  </div>
+
+  <!-- 🔹 Patrocinadores fixos -->
+  <!--div class="position-absolute bottom-0 start-50 translate-middle-x text-center pb-3" style="z-index: 5;">
+    <img src="{{ url_for('static', filename='img/logo1.png') }}" alt="Ministério da Saúde" class="mx-2" height="50">
+    <img src="{{ url_for('static', filename='img/logo2.png') }}" alt="Global Fund" class="mx-2" height="50">
+    <img src="{{ url_for('static', filename='img/logo3.png') }}" alt="PNUD" class="mx-2" height="50">
+    <img src="{{ url_for('static', filename='img/logo4.png') }}" alt="World Vision" class="mx-2" height="50">
+  </div-->
+
 </div>
+
+<!-- 🔹 Estilo local para overlay -->
+<style>
+  .carousel-item .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.70); /* escurecimento 45% */
+    z-index: 2;
+  }
+
+  .carousel-item img {
+    position: relative;
+    z-index: 1;
+  }
+
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    filter: brightness(0) invert(1); /* deixa as setas brancas */
+  }
+</style>
 {% endblock %}

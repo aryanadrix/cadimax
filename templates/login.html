@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrar no Sistema</title>
+    <title>CADIMAX: Campanha de Distribuição Massiva de Mosquiteiros</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo_pr.png') }}">
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
@@ -17,7 +17,7 @@
         <img src="{{ url_for('static', filename='img/logo_pr.png') }}" alt="Logotipo da Campanha">
 
         <!-- Título -->
-        <h4>Entrar no Sistema</h4>
+        <h4>CADIMAX - DATA WAREHOUSE</h4>
 
         <!-- Formulário -->
         <form method="POST" action="{{ url_for('rota_login.login') }}" class="login-form">
@@ -38,7 +38,7 @@
 
     <!-- Rodapé -->
     <footer>
-        POWERED BY OTHER LEVEL © ANGOLA 2025
+        POWERED BY KUBISSEYA TECH © LISBOA 2025
     </footer>
 </body>
 </html>
