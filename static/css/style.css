@@ -1,0 +1,25 @@
+/* 🔧 Correção de overflow lateral no mobile */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* 🔸 Garante que a navbar ocupa toda a largura */
+.navbar, .footer-strip {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* 🔸 Evita que containers internos criem margens laterais no mobile */
+.container-fluid, .container {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* 🔸 Remove espaços brancos em colunas flexíveis */
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}

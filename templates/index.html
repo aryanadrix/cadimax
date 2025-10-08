@@ -3,15 +3,20 @@
 {% block titulo %}Início{% endblock %}
 
 {% block conteudo %}
-<div class="container py-5">
-  <div class="row align-items-center justify-content-center gy-4">
-    <!-- Logotipo circular (centro-esquerda) -->
-    <div class="col-10 col-md-4 text-center text-md-start">
-      <img src="{{ url_for('static', filename='img/logo_pr.png') }}" class="img-fluid logo-hero" alt="Logotipo">
+<div class="container-fluid py-5">
+  <div class="d-flex flex-column flex-md-row align-items-center justify-content-center text-center text-md-start"
+       style="gap:2rem;"> <!--min-height:70vh;-->
+
+    <!-- Logotipo -->
+    <div>
+      <img src="{{ url_for('static', filename='img/logo_pr.png') }}"
+           class="img-fluid logo-hero"
+           alt="Logotipo"
+           style="max-width:380px;">
     </div>
 
-    <!-- Título grande à direita, em maiúsculas, espaçamento amplo -->
-    <div class="col-12 col-md-8">
+    <!-- Título -->
+    <div>
       <h1 class="fw-bold text-black text-uppercase mb-0"
           style="letter-spacing:.15em; line-height:1.25;">
         Campanha de Distribuição&nbsp;Massiva<br>de Mosquiteiros

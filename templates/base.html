@@ -13,6 +13,13 @@
       :root { --brand-orange: #fb6e2b; }
       .logo-hero { width:100%; max-width:460px; }
 
+.border {
+    background: linear-gradient(145deg, #ffffff, #f1f1f1);
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
     .navbar {
       background-color: var(--brand-orange);
       padding-bottom: 0; /* elimina espaço que separava */
@@ -59,13 +66,47 @@
 
     .footer-strip { background: var(--brand-orange); color: #fff; }
     .footer-red { color: #e53935; font-weight: 800; text-transform: uppercase; }
+
+
+
+    :root {
+        --cor-principal: {{ cores.navbar }};
+    }
+
+    /* Header e footer */
+    .navbar, footer {
+        background-color: var(--cor-principal) !important;
+    }
+
+    /* Botões principais */
+    .btn-primary {
+        background-color: var(--cor-principal) !important;
+        border-color: var(--cor-principal) !important;
+    }
+    .btn-primary:hover {
+        background-color: #00000022 !important;
+        border-color: var(--cor-principal) !important;
+        color: var(--cor-principal) !important;
+    }
+
+    /* Links ativos */
+    .nav-link.active, .nav-link:hover {
+        color: var(--cor-principal) !important;
+    }
+
+    /* Gráficos */
+    .chart-color {
+        color: var(--cor-principal);
+    }
   </style>
 </head>
 
 <body class="bg-white d-flex flex-column min-vh-100">
 
   <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark">
+  <!-- nav class="navbar navbar-expand-lg navbar-dark"-->
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: {{ cores.navbar }};">
+
     <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
         <span class="navbar-toggler-icon"></span>
@@ -75,57 +116,57 @@
         <ul class="navbar-nav align-items-center gap-3">
 
           <li class="nav-item {% if request.path == '/' %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('index') }}">
+            <a class="nav-link" href="{{ url_for('rota_index.index') }}">
               <img class="icon-white" src="{{ url_for('static', filename='img/1.svg') }}" alt="">
               Início
             </a>
           </li>
 
-          <li class="nav-item {% if request.path.startswith('/candidaturas') %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('candidaturas') }}">
-              <img class="icon-white" src="{{ url_for('static', filename='img/2.svg') }}" alt="">
-              Candidaturas
-            </a>
-          </li>
+
+            <li class="nav-item {% if request.path.startswith('/candidaturas') %}active{% endif %}">
+                <a class="nav-link" href="{{ url_for('rota_candidaturas.candidaturas') }}">
+                     <img class="icon-white" src="{{ url_for('static', filename='img/2.svg') }}" alt="">
+                     Analise de Candidatos
+                 </a>
+            </li>
 
           <li class="nav-item {% if request.path.startswith('/candidatos_selecionados') %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('candidatos_selecionados') }}">
+            <a class="nav-link" href="{{ url_for('rota_padrao.em_construcao') }}">
               <img class="icon-white" src="{{ url_for('static', filename='img/3.svg') }}" alt="">
               Candidatos Selecionados
             </a>
           </li>
 
           <li class="nav-item {% if request.path.startswith('/pagamentos') %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('pagamentos') }}">
+            <a class="nav-link" href="{{ url_for('rota_padrao.em_construcao') }}">
               <img class="icon-white" src="{{ url_for('static', filename='img/4.svg') }}" alt="">
               Pagamentos
             </a>
           </li>
 
           <li class="nav-item {% if request.path.startswith('/registo_af') %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('registo_af') }}">
+            <a class="nav-link" href="{{ url_for('rota_padrao.em_construcao') }}">
               <img class="icon-white" src="{{ url_for('static', filename='img/5.svg') }}" alt="">
               Registo dos AF e Distribuição
             </a>
           </li>
 
           <li class="nav-item {% if request.path.startswith('/dashboard') %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('dashboard') }}">
+            <a class="nav-link" href="{{ url_for('rota_padrao.em_construcao') }}">
               <img class="icon-white" src="{{ url_for('static', filename='img/6.svg') }}" alt="">
               Dashboard
             </a>
           </li>
 
           <li class="nav-item {% if request.path.startswith('/configuracoes') %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('configuracoes') }}">
+            <a class="nav-link" href="{{ url_for('rota_config.configuracoes') }}">
               <img class="icon-white" src="{{ url_for('static', filename='img/7.svg') }}" alt="">
               Configurações
             </a>
           </li>
 
             <li class="nav-item ms-4 text-white fw-bold">
-  Olá, {{ nome }} |
-  <a href="{{ url_for('logout') }}" class="text-white text-decoration-underline">Logout</a>
+  <a href="{{ url_for('rota_login.logout') }}" class="text-white text-decoration-underline">Logout</a>
 </li>
 
         </ul>
@@ -137,18 +178,20 @@
     {% block conteudo %}{% endblock %}
   </main>
 
-  <!-- FOOTER -->
-  <footer>
-    <section class="py-3">
-      <div class="container d-flex align-items-center justify-content-between gap-3 flex-column flex-md-row">
-        <div class="footer-red">ARQUIVO DIGITAL 1.0 BIÉ</div>
-        <img src="{{ url_for('static', filename='img/patrocinadrs.png') }}" alt="Patrocinadores" class="img-fluid" style="max-height:96px;">
-      </div>
-    </section>
-    <div class="footer-strip text-center py-2">
-      <small>POWERED BY OTHER LEVEL © ANGOLA 2025</small>
-    </div>
-  </footer>
+  <!-- Área de patrocinadores (fora do footer) -->
+<div class="patrocinadores text-center py-3 bg-white">
+    <img src="{{ url_for('static', filename='img/logo1.png') }}" alt="Ministério da Saúde" class="mx-2" height="40">
+    <img src="{{ url_for('static', filename='img/logo2.png') }}" alt="Global Fund" class="mx-2" height="40">
+    <img src="{{ url_for('static', filename='img/logo3.png') }}" alt="PNUD" class="mx-2" height="40">
+    <img src="{{ url_for('static', filename='img/logo4.png') }}" alt="World Vision" class="mx-2" height="40">
+</div>
+
+<!-- Footer verdadeiro -->
+<footer class="text-center text-white py-2">
+    <small>POWERED BY KUBISSEYA TECH © LISBOA 2025</small>
+</footer>
+
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

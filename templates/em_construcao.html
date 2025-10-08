@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+<div class="container text-center mt-5 py-5">
+    <img src="{{ url_for('static', filename='img/em_construcao.png') }}" alt="Em construção" class="mb-4" width="180">
+    <h2 class="fw-bold text-secondary">🚧 Página em Construção</h2>
+    <p class="text-muted">Esta funcionalidade estará disponível brevemente.<br>Por favor, volte mais tarde.</p>
+
+    <a href="{{ url_for('rota_index.index') }}" class="btn btn-primary mt-3">Voltar à Página Inicial</a>
+</div>
+{% endblock %}

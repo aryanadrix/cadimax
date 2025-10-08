@@ -1,109 +1,50 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask
+from baseDados.conexao import db
 import os
 
-app = Flask(__name__)
-app.secret_key = "chave_super_secreta"
+def create_app():
+    app = Flask(__name__)
+    app.secret_key = 'segredo_campanha'
 
-# Configuração do PostgreSQL (ajusta com as tuas credenciais)
-#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+    # Banco dinâmico: Railway ou local
+    if os.environ.get('RAILWAY_ENVIRONMENT'):
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:bBshVLxaJHketVuDYxmUDPGYkpexUmPG@postgres.railway.internal:5432/railway'
+    else:
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///local.db'
 
-if os.environ.get('RAILWAY_ENVIRONMENT'):
-    # 🚀 No Railway (produção)
-    app.config[
-        'SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:bBshVLxaJHketVuDYxmUDPGYkpexUmPG@postgres.railway.internal:5432/railway'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-else:
-    # 💻 No teu computador (desenvolvimento)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///local.db'
+    # Inicializa o SQLAlchemy
+    db.init_app(app)
 
+    # Importa modelos dentro do contexto
+    with app.app_context():
+        from modelos.utilizador_modelo import Utilizador
+        from modelos.importacao_modelo import ImportacaoDB
+        from modelos.documento_modelo import Documento
+        db.create_all()
 
+    # Importa e regista os blueprints
+    from rotas.login_rotas import rota_login
+    from rotas.index_rotas import rota_index
+    from rotas.config_rotas import rota_config, obter_cores
+    from rotas.candidaturas_rotas import rota_candidaturas
+    from rotas.padrao_rotas import rota_padrao
 
+    app.register_blueprint(rota_login)
+    app.register_blueprint(rota_index)
+    app.register_blueprint(rota_config)
+    app.register_blueprint(rota_candidaturas)
+    app.register_blueprint(rota_padrao)
 
+    # 🔹 Injeta cores personalizadas nos templates
+    @app.context_processor
+    def inject_cores():
+        return dict(cores=obter_cores())
 
+    return app
 
-
-
-
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-
-
-db = SQLAlchemy(app)
-
-# Modelo de utilizador
-class Usuario(db.Model):
-    __tablename__ = 'usuarios'
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(100), nullable=False)
-    username = db.Column(db.String(100), unique=True, nullable=False)
-    senha = db.Column(db.String(100), nullable=False)
-
-@app.route('/', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-
-        user = Usuario.query.filter_by(username=username, senha=password).first()
-        if user:
-            session['logado'] = True
-            session['usuario_nome'] = user.nome
-            session['usuario_username'] = user.username
-            return redirect(url_for('index'))
-        else:
-            return render_template('login.html', error="Credenciais erradas, por favor repetir.")
-    return render_template('login.html')
-
-@app.route('/index')
-def index():
-    if not session.get('logado'):
-        return redirect(url_for('login'))
-    return render_template('index.html', nome=session.get('usuario_nome'))
-
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('login'))
-
-# Páginas placeholders
-@app.route('/candidaturas')
-def candidaturas():
-    if not session.get('logado'):
-        return redirect(url_for('login'))
-    return render_template('index.html', nome=session.get('usuario_nome'))
-
-@app.route('/candidatos_selecionados')
-def candidatos_selecionados():
-    if not session.get('logado'):
-        return redirect(url_for('login'))
-    return render_template('index.html', nome=session.get('usuario_nome'))
-
-@app.route('/pagamentos')
-def pagamentos():
-    if not session.get('logado'):
-        return redirect(url_for('login'))
-    return render_template('index.html', nome=session.get('usuario_nome'))
-
-@app.route('/registo_af')
-def registo_af():
-    if not session.get('logado'):
-        return redirect(url_for('login'))
-    return render_template('index.html', nome=session.get('usuario_nome'))
-
-@app.route('/dashboard')
-def dashboard():
-    if not session.get('logado'):
-        return redirect(url_for('login'))
-    return render_template('index.html', nome=session.get('usuario_nome'))
-
-@app.route('/configuracoes')
-def configuracoes():
-    if not session.get('logado'):
-        return redirect(url_for('login'))
-    return render_template('index.html', nome=session.get('usuario_nome'))
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
+    app = create_app()
     app.run(debug=True)
