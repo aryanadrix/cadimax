@@ -4,36 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/modelos/candidato_selecionado.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rotas/candidatos_selecionados_rotas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/candidatos_selecionados.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="CADIMAX MÓDULO 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/bin/Activate.ps1" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/Activate.ps1" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/bin/activate" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/activate" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/bin/activate.csh" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/activate.csh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/bin/activate.fish" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/activate.fish" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/bin/pip" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/pip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/bin/pip3" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/pip3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/bin/python" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/python" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/bin/python3" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/python3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/pyvenv.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/pyvenv.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/criar_admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/criar_admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance/local.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modelos/utilizador_modelo.py" beforeDir="false" afterPath="$PROJECT_DIR$/modelos/utilizador_modelo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rotas/config_rotas.py" beforeDir="false" afterPath="$PROJECT_DIR$/rotas/config_rotas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rotas/login_rotas.py" beforeDir="false" afterPath="$PROJECT_DIR$/rotas/login_rotas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rotas/padrao_rotas.py" beforeDir="false" afterPath="$PROJECT_DIR$/rotas/padrao_rotas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/login.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/uploads/bases/p_analis_maito.csv" beforeDir="false" afterPath="$PROJECT_DIR$/static/uploads/bases/candidatos.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/candidaturas.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/candidaturas.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/configuracoes.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/configuracoes.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +51,7 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "DefaultHtmlFileTemplate": "HTML File",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.app.executor": "Debug",
+    "Python.app.executor": "Run",
     "Python.candidatos_selecionados_rotas.executor": "Run",
     "Python.config_rotas.executor": "Debug",
     "Python.criar_admin.executor": "Run",
@@ -108,6 +80,15 @@
       <option name="presentableId" value="Default" />
       <updated>1760092358273</updated>
     </task>
+    <task id="LOCAL-00001" summary="CADIMAX MÓDULO 2">
+      <option name="closed" value="true" />
+      <created>1760128534304</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1760128534304</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -120,5 +101,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="CADIMAX MÓDULO 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="CADIMAX MÓDULO 2" />
   </component>
 </project>
