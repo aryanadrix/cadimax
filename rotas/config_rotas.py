@@ -1,4 +1,4 @@
-# rotas/config_rotas.py
+# rotas/config_rotas.py GPT
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, send_from_directory
 from modelos.importacao_modelo import ImportacaoDB
 from modelos.documento_modelo import Documento
@@ -13,8 +13,18 @@ from modelos.utilizador_modelo import Utilizador
 from werkzeug.security import generate_password_hash
 import pandas as pd
 
-
 rota_config = Blueprint('rota_config', __name__)
+
+def garantir_pastas_uploads():
+    pastas = [
+        os.path.join('static', 'uploads'),
+        os.path.join('static', 'uploads', 'bases'),
+        os.path.join('static', 'uploads', 'docs'),
+        os.path.join('static', 'uploads', 'selecionados'),
+        os.path.join('static', 'config'),
+    ]
+    for p in pastas:
+        os.makedirs(p, exist_ok=True)
 
 # Pastas (dentro de /static/uploads)
 BASES_DIR = os.path.join('static', 'uploads', 'bases')
@@ -25,20 +35,16 @@ CORES_FILE = os.path.join(CONFIG_DIR, 'cores.json')
 ALLOWED_DB_EXT = {'xlsx', 'csv', 'ods'}
 MAX_PDF_MB = 11
 
-
 def _garante_pastas():
     os.makedirs(BASES_DIR, exist_ok=True)
     os.makedirs(DOCS_DIR, exist_ok=True)
     os.makedirs(CONFIG_DIR, exist_ok=True)
 
-
 def _get_ip():
     return request.environ.get('HTTP_X_FORWARDED_FOR', request.remote_addr)
 
-
 def _user_nome():
     return session.get('nome', 'Desconhecido')
-
 
 # -------------------- Personalização (cores) --------------------
 def obter_cores():
@@ -47,12 +53,10 @@ def obter_cores():
     with open(CORES_FILE, 'r') as f:
         return json.load(f)
 
-
 def guardar_cores_json(novas):
     os.makedirs(CONFIG_DIR, exist_ok=True)
     with open(CORES_FILE, 'w') as f:
         json.dump(novas, f)
-
 
 # -------------------- Normalização de nomes --------------------
 def _slug(s: str) -> str:
@@ -70,7 +74,6 @@ def _slug(s: str) -> str:
             out.append('_')
     return ''.join(out)
 
-
 # Mapa de sinónimos -> campo alvo
 SINONIMOS = {
     'nome': 'nome', 'nome_completo': 'nome', 'candidato': 'nome', 'beneficiario': 'nome',
@@ -80,7 +83,6 @@ SINONIMOS = {
     'documentos': 'documentos', 'docs': 'documentos', 'anexos': 'documentos',
     'completo': 'completo', 'completou': 'completo', 'entrega_completa': 'completo', 'docs_completos': 'completo'
 }
-
 
 def _mapear_colunas(cols):
     normalizados = [_slug(c) for c in cols]
@@ -95,13 +97,11 @@ def _mapear_colunas(cols):
         mapa[i] = alvo
     return mapa, normalizados
 
-
 def _to_bool(val):
     if val is None:
         return False
     s = str(val).strip().lower()
     return s in {'1', 'true', 't', 'sim', 'yes', 'y', 'ok', 'completo', 'completa'}
-
 
 # -------------------- Processamento do ficheiro de candidatos --------------------
 def processar_candidatos(caminho_ficheiro: str, titulo: str):
@@ -111,9 +111,9 @@ def processar_candidatos(caminho_ficheiro: str, titulo: str):
         df = pd.read_excel(caminho_ficheiro, engine='openpyxl')
     elif ext == 'csv':
         try:
-            df = pd.read_csv(caminho_ficheiro)
+            df = pd.read_csv(caminho_ficheiro)  # tenta auto
         except Exception:
-            df = pd.read_csv(caminho_ficheiro, sep=';')
+            df = pd.read_csv(caminho_ficheiro, sep=';')  # fallback ;  # (novo)
     elif ext == 'ods':
         try:
             df = pd.read_excel(caminho_ficheiro, engine='odf')
@@ -128,6 +128,8 @@ def processar_candidatos(caminho_ficheiro: str, titulo: str):
         return
 
     mapa, normalizados = _mapear_colunas(list(df.columns))
+
+    # limpa antes de inserir
     db.session.query(Candidato).delete()
     db.session.commit()
 
@@ -157,16 +159,13 @@ def processar_candidatos(caminho_ficheiro: str, titulo: str):
                 elif alvo == 'completo':
                     completo = _to_bool(val)
 
-        # -------- Lógica reforçada: completo se tiver BI + CV + NIB/IBAN --------
-        texto_todo = " ".join([
-            str(val).lower() for val in row.values if pd.notna(val)
-        ])
+        # regra extra (BI+CV+NIB) mantém-se
+        texto_todo = " ".join([str(val).lower() for val in row.values if pd.notna(val)])
         tem_bi = any(x in texto_todo for x in ['bi', 'bilhete'])
         tem_cv = any(x in texto_todo for x in ['cv', 'curriculum'])
         tem_nib = any(x in texto_todo for x in ['nib', 'iban'])
         if tem_bi and tem_cv and tem_nib:
             completo = True
-        # ------------------------------------------------------------------------
 
         registos.append(Candidato(
             nome=nome,
@@ -183,10 +182,10 @@ def processar_candidatos(caminho_ficheiro: str, titulo: str):
         db.session.bulk_save_objects(registos)
         db.session.commit()
 
-
 # -------------------- Páginas --------------------
 @rota_config.route('/configuracoes')
 def configuracoes():
+    garantir_pastas_uploads()  # (novo)
     if 'usuario_id' not in session:
         return redirect(url_for('rota_login.login'))
 
@@ -205,10 +204,10 @@ def configuracoes():
         cores=cores
     )
 
-
 # ------------ BASE DE DADOS ------------
 @rota_config.route('/importar_db', methods=['POST'])
 def importar_db():
+    garantir_pastas_uploads()  # (novo)
     if 'usuario_id' not in session:
         return redirect(url_for('rota_login.login'))
 
@@ -227,7 +226,12 @@ def importar_db():
     _garante_pastas()
     nome_seguro = secure_filename(ficheiro.filename)
     caminho = os.path.join(BASES_DIR, nome_seguro)
-    ficheiro.save(caminho)
+
+    try:
+        ficheiro.save(caminho)
+    except Exception as e:
+        flash(f"Falha ao guardar ficheiro: {e}", "danger")  # (novo)
+        return redirect(url_for('rota_config.configuracoes'))
 
     reg = ImportacaoDB(
         titulo=titulo,
@@ -257,7 +261,6 @@ def importar_db():
 
     return redirect(url_for('rota_config.configuracoes'))
 
-
 @rota_config.route('/download_base/<int:import_id>')
 def download_base(import_id):
     if 'usuario_id' not in session:
@@ -265,25 +268,34 @@ def download_base(import_id):
     reg = ImportacaoDB.query.get_or_404(import_id)
     return send_from_directory(BASES_DIR, reg.ficheiro, as_attachment=True)
 
-
 @rota_config.route('/apagar_importacao/<int:import_id>', methods=['POST'])
 def apagar_importacao(import_id):
     if 'usuario_id' not in session:
         return redirect(url_for('rota_login.login'))
+
     reg = ImportacaoDB.query.get_or_404(import_id)
     try:
         os.remove(os.path.join(BASES_DIR, reg.ficheiro))
     except Exception:
         pass
+
     db.session.delete(reg)
     db.session.commit()
-    flash("🗑️ Importação removida.", "info")
-    return redirect(url_for('rota_config.configuracoes'))
 
+    # 🧹 Limpa também todos os candidatos
+    db.session.query(Candidato).delete()
+    db.session.commit()
+
+    # Garante que as pastas continuam existentes após limpar tudo
+    garantir_pastas_uploads()  # (novo)
+
+    flash("🗑️ Importação e todos os candidatos foram removidos.", "info")
+    return redirect(url_for('rota_config.configuracoes'))
 
 # ------------ DOCUMENTOS (PDF) ------------
 @rota_config.route('/upload_doc', methods=['POST'])
 def upload_doc():
+    garantir_pastas_uploads()  # (novo)
     if 'usuario_id' not in session:
         return redirect(url_for('rota_login.login'))
 
@@ -309,7 +321,12 @@ def upload_doc():
     _garante_pastas()
     nome_seguro = secure_filename(ficheiro.filename)
     caminho = os.path.join(DOCS_DIR, nome_seguro)
-    ficheiro.save(caminho)
+
+    try:
+        ficheiro.save(caminho)
+    except Exception as e:
+        flash(f"Falha ao guardar PDF: {e}", "danger")  # (novo)
+        return redirect(url_for('rota_config.configuracoes'))
 
     reg = Documento(
         titulo=titulo,
@@ -323,14 +340,12 @@ def upload_doc():
     flash("✅ Upload feito com sucesso!", "success")
     return redirect(url_for('rota_config.configuracoes'))
 
-
 @rota_config.route('/ver_doc/<int:doc_id>')
 def ver_doc(doc_id):
     if 'usuario_id' not in session:
         return redirect(url_for('rota_login.login'))
     reg = Documento.query.get_or_404(doc_id)
     return send_from_directory(DOCS_DIR, reg.ficheiro, as_attachment=False)
-
 
 @rota_config.route('/apagar_doc/<int:doc_id>', methods=['POST'])
 def apagar_doc(doc_id):
@@ -343,9 +358,9 @@ def apagar_doc(doc_id):
         pass
     db.session.delete(reg)
     db.session.commit()
+    garantir_pastas_uploads()  # (novo)
     flash("🗑️ Documento removido.", "info")
     return redirect(url_for('rota_config.configuracoes'))
-
 
 # ------------ Guardar e obter cores ------------
 @rota_config.route('/guardar_cores', methods=['POST'])
@@ -364,7 +379,6 @@ def guardar_cores_rota():
 
     flash("🎨 Tema atualizado com sucesso!", "success")
     return redirect(url_for('rota_config.configuracoes'))
-
 
 # -------------------- UTILIZADORES --------------------
 @rota_config.route('/criar_utilizador', methods=['POST'])
@@ -394,7 +408,6 @@ def criar_utilizador():
 
     flash("✅ Utilizador criado com sucesso!", "success")
     return redirect(url_for('rota_config.configuracoes'))
-
 
 @rota_config.route('/apagar_utilizador/<int:id>', methods=['POST'])
 def apagar_utilizador(id):

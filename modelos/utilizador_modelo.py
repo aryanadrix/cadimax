@@ -11,5 +11,6 @@ class Utilizador(db.Model):
     senha = db.Column(db.String(200), nullable=False)
     criado_em = db.Column(db.DateTime, default=datetime.utcnow)
 
+
     def __repr__(self):
         return f"<Utilizador {self.username}>"

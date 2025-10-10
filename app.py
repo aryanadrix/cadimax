@@ -2,6 +2,8 @@ from flask import Flask
 from baseDados.conexao import db
 import os
 
+
+
 def create_app():
     app = Flask(__name__)
     app.secret_key = 'segredo_campanha'
@@ -22,7 +24,11 @@ def create_app():
         from modelos.utilizador_modelo import Utilizador
         from modelos.importacao_modelo import ImportacaoDB
         from modelos.documento_modelo import Documento
+        from modelos.candidato_modelo import Candidato
+        from modelos.candidato_selecionado import CandidatoSelecionado, HistoricoImportacao
         db.create_all()
+
+
 
     # Importa e regista os blueprints
     from rotas.login_rotas import rota_login
@@ -30,12 +36,14 @@ def create_app():
     from rotas.config_rotas import rota_config, obter_cores
     from rotas.candidaturas_rotas import rota_candidaturas
     from rotas.padrao_rotas import rota_padrao
+    from rotas.candidatos_selecionados_rotas import rota_candidatos_selecionados
 
     app.register_blueprint(rota_login)
     app.register_blueprint(rota_index)
     app.register_blueprint(rota_config)
     app.register_blueprint(rota_candidaturas)
     app.register_blueprint(rota_padrao)
+    app.register_blueprint(rota_candidatos_selecionados)
 
     # 🔹 Injeta cores personalizadas nos templates
     @app.context_processor

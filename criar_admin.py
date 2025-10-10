@@ -1,23 +1,34 @@
+# criar_admin.py
 from app import create_app
 from baseDados.conexao import db
 from modelos.utilizador_modelo import Utilizador
+from werkzeug.security import generate_password_hash
 
-app = create_app()
+def criar_admins():
+    app = create_app()
+    with app.app_context():
+        db.create_all()  # Garante que as tabelas existem
 
-with app.app_context():
-    db.create_all()
+        # Utilizadores padrão
+        utilizadores_default = [
+            {"nome": "Administrador Geral", "username": "admin", "senha": "12345"},
+            {"nome": "Analista de Dados", "username": "analista", "senha": "12345"},
+        ]
 
-    username_admin = 'marillson2025@'
-    admin_existente = Utilizador.query.filter_by(username=username_admin).first()
+        for u in utilizadores_default:
+            existente = Utilizador.query.filter_by(username=u["username"]).first()
+            if not existente:
+                novo = Utilizador(
+                    nome=u["nome"],
+                    username=u["username"],
+                    senha=generate_password_hash(u["senha"])
+                )
+                db.session.add(novo)
 
-    if not admin_existente:
-        novo_admin = Utilizador(
-            nome='Marillson Rodrigues',
-            username=username_admin,
-            senha='12345@'
-        )
-        db.session.add(novo_admin)
         db.session.commit()
-        print("✅ Administrador criado com sucesso!")
-    else:
-        print(f"⚠️ O utilizador '{username_admin}' já existe na base de dados.")
+        print("✅ Utilizadores padrão criados com sucesso!")
+        print("👉 admin / 12345")
+        print("👉 analista / 12345")
+
+if __name__ == "__main__":
+    criar_admins()

@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+<div class="container" style="max-width: 1200px; margin: auto;">
+<div class="container-fluid mt-4">
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+    <!--h4 class="fw-semibold text-dark mb-0">Configurações</h4-->
+    <small class="text-muted">Importações, histórico, filtros e lista dos candidatos selecionados</small>
+  </div>
+
+  <!-- Importação + Histórico -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+<div class="card-header bg-warning text-white" style="background-color: #ff7b00 !important;">Importar Base de Dados</div>
+        <div class="card-body">
+          <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label class="form-label">Título</label>
+              <input type="text" name="titulo" class="form-control" placeholder="Título da importação">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Ficheiro (.csv, .xlsx, .ods)</label>
+              <input type="file" name="ficheiro" class="form-control" required>
+            </div>
+            <button type="submit" class="btn w-100 text-white" style="background-color: #ff7b00; border-color: #ff7b00;">
+              <i class="bi bi-upload"></i> Importar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header text-white" style="background-color: #ff7b00;">Histórico (últimas 10)</div>
+        <div class="card-body p-0">
+          <table class="table table-sm table-striped mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Título</th>
+                <th>Data</th>
+                <th>Utilizador</th>
+                <th>IP</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for h in historico %}
+              <tr>
+                <td>{{ h.titulo }}</td>
+                <td>{{ h.data.strftime("%d/%m/%Y %H:%M") }}</td>
+                <td>{{ h.utilizador }}</td>
+                <td>{{ h.ip }}</td>
+              </tr>
+              {% else %}
+              <tr><td colspan="4" class="text-center text-muted py-3">Sem histórico</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <form method="GET" class="row g-3 mb-4">
+    <div class="col-md-5">
+      <select name="municipio" class="form-select">
+        <option value="">Todos os municípios</option>
+        {% for m in municipios_disponiveis %}
+        <option value="{{ m }}" {% if filtro_municipio==m %}selected{% endif %}>{{ m }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-5">
+      <select name="vaga" class="form-select">
+        <option value="">Todas as vagas</option>
+        {% for v in vagas_disponiveis %}
+        <option value="{{ v }}" {% if filtro_vaga==v %}selected{% endif %}>{{ v }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-primary w-100">
+        <i class="bi bi-filter"></i> Filtrar
+      </button>
+    </div>
+  </form>
+
+  <!-- Totais -->
+ <div class="text-center p-3 rounded" style="background-color: rgba(255, 123, 0, 0.15); color: #ff7b00; font-weight: 600;">
+    <strong>Total de candidatos:</strong> {{ total }}
+  </div>
+
+  <!-- Gráficos -->
+  <div class="row mb-4">
+    <div class="col-md-6"><canvas id="graficoMunicipio"></canvas></div>
+    <div class="col-md-6"><canvas id="graficoVaga"></canvas></div>
+  </div>
+
+  <!-- Tabela -->
+  <div class="card shadow-sm">
+    <div class="card-header text-white" style="background-color: #ff7b00;">Registos Importados</div>
+    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+      <table class="table table-hover table-striped align-middle">
+        <thead class="table-light sticky-top">
+          <tr>
+            <th>Nome</th>
+            <th>Vaga</th>
+            <th>Município</th>
+            <th>Comuna</th>
+            <th>Resultado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in candidatos %}
+          <tr>
+            <td>{{ c.nome }}</td>
+            <td>{{ c.vaga }}</td>
+            <td>{{ c.municipio }}</td>
+            <td>{{ c.comuna }}</td>
+            <td>{{ c.resultado }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5" class="text-center text-muted py-3">Nenhum registo encontrado.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Detalhes do Candidato -->
+<div class="modal fade" id="detalhesModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg">
+ <div class="modal-header text-white" style="background-color: #ff7b00;">
+        <h5 class="modal-title">Detalhes do Candidato</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Nome:</strong> <span id="detNome"></span></p>
+        <p><strong>Vaga:</strong> <span id="detVaga"></span></p>
+        <p><strong>Município:</strong> <span id="detMunicipio"></span></p>
+        <p><strong>Comuna:</strong> <span id="detComuna"></span></p>
+        <p><strong>Resultado:</strong>
+          <span id="detResultado" class="fw-bold px-2 py-1 rounded"></span>
+        </p>
+      </div>
+      <div class="modal-footer">
+       <button type="button" class="btn text-white" data-bs-dismiss="modal"
+        style="background-color: #ff7b00; border: none;">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script para abrir detalhes -->
+<script>
+document.querySelectorAll('table tbody tr').forEach(row => {
+  row.addEventListener('click', () => {
+    const cells = row.querySelectorAll('td');
+    if (cells.length >= 5) {
+      const nome = cells[0].textContent.trim();
+      const vaga = cells[1].textContent.trim();
+      const municipio = cells[2].textContent.trim();
+      const comuna = cells[3].textContent.trim();
+      const resultado = cells[4].textContent.trim();
+
+      document.getElementById('detNome').textContent = nome;
+      document.getElementById('detVaga').textContent = vaga;
+      document.getElementById('detMunicipio').textContent = municipio;
+      document.getElementById('detComuna').textContent = comuna;
+
+      const resultadoEl = document.getElementById('detResultado');
+      resultadoEl.textContent = resultado;
+
+      // Cor dinâmica do resultado
+      if (resultado.toLowerCase().includes('admitido') || resultado.toLowerCase().includes('selecionado')) {
+  resultadoEl.className = 'fw-bold bg-success text-white px-2 py-1 rounded'; // Verde
+} else {
+  resultadoEl.className = 'fw-bold bg-secondary text-white px-2 py-1 rounded';
+}
+
+      const modal = new bootstrap.Modal(document.getElementById('detalhesModal'));
+      modal.show();
+    }
+  });
+});
+</script>
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+new Chart(document.getElementById('graficoMunicipio'), {
+  type: 'bar',
+  data: { labels: {{ municipios|tojson }}, datasets: [{ label: 'Por Município', data: {{ dados_municipio|tojson }}, borderWidth: 1 }] },
+  options: { responsive: true, scales: { y: { beginAtZero: true } } }
+});
+new Chart(document.getElementById('graficoVaga'), {
+  type: 'pie',
+  data: { labels: {{ vagas|tojson }}, datasets: [{ label: 'Por Vaga', data: {{ dados_vaga|tojson }} }] },
+  options: { responsive: true }
+});
+</script>
+    </div>
+{% endblock %}

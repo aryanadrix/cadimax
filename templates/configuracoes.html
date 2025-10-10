@@ -2,10 +2,11 @@
 {% block titulo %}Configurações{% endblock %}
 
 {% block conteudo %}
+<div class="container" style="max-width: 1200px; margin: auto;">
 <div class="container-fluid py-4">
 
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="fw-semibold text-dark mb-0">Configurações</h4>
+    <!--h4 class="fw-semibold text-dark mb-0">Configurações</h4-->
     <small class="text-muted">Importações, documentos, utilizadores e personalização</small>
   </div>
 
@@ -18,6 +19,8 @@
   </div>
   <div class="card-body">
     <form class="row g-2 align-items-center mb-3" method="POST" action="{{ url_for('rota_config.criar_utilizador') }}">
+
+
       <div class="col-md-4">
         <input type="text" name="nome" class="form-control" placeholder="Nome" required>
       </div>
@@ -75,7 +78,7 @@
     <!-- 🔹 COLUNA 2: IMPORTAR BASE DE DADOS -->
     <div class="col-12 col-lg-6">
       <div class="border rounded p-4 bg-white shadow-sm h-100">
-        <h5 class="fw-semibold mb-3 text-primary">📦 Importar Base de Dados</h5>
+        <h6 class="fw-semibold mb-3 text-primary">Importar Base de Dados para Análise e Exposição dos Candidatos</h6>
 
         <form method="POST" action="{{ url_for('rota_config.importar_db') }}" enctype="multipart/form-data">
           <div class="mb-3">
@@ -129,7 +132,7 @@
     <!-- 🔹 DOCUMENTOS -->
     <div class="col-12 col-lg-6">
       <div class="border rounded p-4 bg-white shadow-sm h-100">
-        <h5 class="fw-semibold mb-3 text-primary">📄 Documentos</h5>
+        <h5 class="fw-semibold mb-3 text-primary">Repositório de Documentos</h5>
 
         <form method="POST" action="{{ url_for('rota_config.upload_doc') }}" enctype="multipart/form-data">
           <input type="text" name="titulo_doc" class="form-control mb-2" placeholder="Título" required>
@@ -186,6 +189,7 @@
 
   </div>
 </div>
+    </div>
 {% endblock %}
 
 <!--
