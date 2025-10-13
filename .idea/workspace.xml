@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="CDM-BIÉ: MÓDULO 3">
-      <change afterPath="$PROJECT_DIR$/modelos/actividade_modelo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rotas/actividades_rotas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/actividades.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/admin_actividades.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance/local.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/config/cores.json" beforeDir="false" afterPath="$PROJECT_DIR$/static/config/cores.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/configuracoes.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/configuracoes.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+    <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="CDM-BIÉ: MÓDULO ATIVIDADES">
+      <change beforePath="$PROJECT_DIR$/static/img/logo_pr.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +118,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760370969496</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="CDM-BIÉ: MÓDULO ATIVIDADES">
+      <option name="closed" value="true" />
+      <created>1760388098146</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1760388098146</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -145,6 +144,7 @@
     <MESSAGE value="CADIMAX MÓDULO 2" />
     <MESSAGE value="CADIMAX MÓDULO 2 (bases)" />
     <MESSAGE value="CDM-BIÉ: MÓDULO 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="CDM-BIÉ: MÓDULO 3" />
+    <MESSAGE value="CDM-BIÉ: MÓDULO ATIVIDADES" />
+    <option name="LAST_COMMIT_MESSAGE" value="CDM-BIÉ: MÓDULO ATIVIDADES" />
   </component>
 </project>
