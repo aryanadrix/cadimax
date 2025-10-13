@@ -1,0 +1,338 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+<style>
+:root { --brand: var(--cor-principal, {{ cores.navbar }}); }
+
+body, label, .form-label, input, select, option, th, td, .section-header { color: #222 !important; }
+
+.form-control {
+  color: #222 !important;
+  background-color: #fff !important;
+  border: 1px solid #ccc !important;
+  font-size: 15px !important;
+}
+
+::placeholder { color: #666 !important; }
+
+.section-header { font-size: 16px; font-weight: 600; }
+
+.btn-laranja { font-size: 15px; letter-spacing: 0.4px; }
+
+.nav-tabs { border-bottom: 2px solid var(--brand); background: #fff; border-radius: 6px 6px 0 0; overflow: hidden; }
+.nav-tabs .nav-link {
+  font-weight: 600; color: #555; border: none; border-bottom: 3px solid transparent;
+  transition: all 0.25s ease; padding: 10px 18px; background: #f6f6f6; border-right: 1px solid #ddd;
+}
+.nav-tabs .nav-link:hover { background: #ffe5d0; color: var(--brand); }
+.nav-tabs .nav-link.active {
+  color: #fff !important; background: var(--brand); border-bottom: 3px solid var(--brand);
+  border-top-left-radius: 6px; border-top-right-radius: 6px;
+}
+
+.section-header { background: var(--brand); color: #fff; padding: 10px 15px; border-radius: 6px 6px 0 0; font-weight: 600; }
+.section-box { background: #fff; border-radius: 8px; padding: 15px; margin-top: 10px; box-shadow: 0 0 8px rgba(0,0,0,.08); }
+
+.card-metric {
+  background: #fff; border-radius: 10px; padding: 18px; text-align: center; font-weight: bold;
+  box-shadow: 0 0 6px rgba(0,0,0,.1); transition: all 0.3s ease;
+}
+.card-metric strong { display: block; font-size: 32px; color: #222; font-weight: 700; }
+.card-metric span { display: block; font-size: 14px; color: #666; }
+.card-metric:hover {
+  transform: translateY(-5px); box-shadow: 0 8px 20px rgba(251,110,43,0.45);
+  background-color: #ffe6d6; border: 1px solid #fb6e2b; cursor: pointer;
+}
+
+th { background: var(--brand)!important; color: #fff }
+.btn-laranja { background: var(--brand); color: #fff; font-weight: 700 }
+.btn-laranja:hover { filter: brightness(.9) }
+
+.table-responsive { max-height: 420px; overflow: auto; border: 1px solid #e6e6e6; border-radius: 6px; }
+.table th, .table td {
+  text-align: center; vertical-align: middle; padding: 8px 6px; border-top: 1px solid #eee;
+}
+.table thead th {
+  position: sticky; top: 0; background: var(--brand); color: #fff; z-index: 2;
+  text-align: center; font-weight: 600;
+}
+.table tbody tr:nth-child(even) { background-color: #f9f9f9; }
+.table td:first-child, .table th:first-child { text-align: left; padding-left: 15px; }
+.table-hover tbody tr { cursor: pointer; }
+
+
+
+
+
+/* 🔧 Deixar o texto branco nas seções e tabelas principais */
+.section-header,
+.section-header *,
+label,
+.form-label,
+th,
+
+.section-box h5,
+.section-box h6 {
+  color: #fff !important;
+}
+
+
+/* 🔧 Para harmonizar inputs e títulos */
+label, .form-label {
+  color: var(--cor-principal, {{ cores.navbar }}) !important;
+  font-weight: 600;
+}
+</style>
+
+
+<div class="container mt-3" style="max-width: 1300px;">
+
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+    <!--h4 class="fw-semibold text-dark mb-0">Configurações</h4-->
+    <small class="text-muted">Importações, histórico, filtros e registo de pagamento dos contratados</small>
+  </div>
+
+
+  <ul class="nav nav-tabs" id="tabs" role="tablist">
+    <li class="nav-item"><button class="nav-link {% if aba_ativa=='formacoes' %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#tabForm">PAGAMENTOS DAS FORMAÇÕES</button></li>
+    <li class="nav-item"><button class="nav-link {% if aba_ativa=='dias' %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#tabDias">PAGAMENTOS DE DIAS DE TRABALHO</button></li>
+  </ul>
+
+
+
+
+
+  <div class="tab-content mt-3">
+    <!-- =================== FORMAÇÕES =================== -->
+    <div class="tab-pane fade {% if aba_ativa=='formacoes' %}show active{% endif %}" id="tabForm">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="section-header">Importar Base de Dados</div>
+          <div class="section-box">
+            <form method="POST" action="{{ url_for('rota_pagamentos.importar_formacoes') }}" enctype="multipart/form-data">
+              <div class="mb-2"><label class="form-label">Título</label><input class="form-control" name="titulo" placeholder="Título da importação não obrigatório"></div>
+              <div class="mb-2"><label class="form-label">Ficheiro (.csv, .xlsx, .ods)</label><input type="file" class="form-control" name="ficheiro" required></div>
+              <button class="btn btn-laranja w-100">IMPORTAR</button>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="section-header">Base de Dados Actual Importada</div>
+          <div class="section-box">
+            <table class="table table-sm table-striped align-middle">
+              <thead><tr><th>Título</th><th>Data</th><th>Utilizador</th><th>IP</th><th></th></tr></thead>
+              <tbody>
+                {% for h in historico_formacoes %}
+                <tr>
+                  <td>{{h.titulo}}</td>
+                  <td>{{h.data.strftime('%d/%m/%Y %H:%M')}}</td>
+                  <td>{{h.utilizador}}</td>
+                  <td>{{h.ip}}</td>
+                  <td>
+                    <form method="POST" action="{{ url_for('rota_pagamentos.eliminar_historico_formacoes', hid=h.id) }}" onsubmit="return confirm('Eliminar histórico e base?')">
+                      <button class="btn btn-sm btn-danger">🗑</button>
+                    </form>
+                  </td>
+                </tr>{% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3 text-center">
+        <div class="col-md-4"><div class="card-metric"><span>Total de Contratados Pagos</span><strong id="m_form_total">0</strong></div></div>
+        <div class="col-md-4"><div class="card-metric"><span>Total de Verbas Pagas (KZ)</span><strong id="m_form_verba">0</strong></div></div>
+        <div class="col-md-4"><div class="card-metric"><span>Média de Dias Trabalhados</span><strong id="m_form_media">0</strong></div></div>
+      </div>
+
+      <div class="section-box mt-3">
+        <div class="row g-2 mb-2">
+          <div class="col-md-6">
+            <label>Município</label>
+            <select id="f_form_mun" class="form-select">
+              <option value="todos">Todos</option>
+              {% for m in municipios_formacoes %}<option value="{{m}}">{{m}}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label>Categoria / Função</label>
+            <select id="f_form_cat" class="form-select">
+              <option value="todas">Todas</option>
+              {% for c in categorias_formacoes %}<option value="{{c}}">{{c}}</option>{% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead><tr><th>Nome Completo</th><th>Município</th><th>Categoria</th><th>Valor Transporte</th><th>Dias Trabalhados</th><th>Total Recebido</th></tr></thead>
+            <tbody id="tb_form"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== DIAS DE TRABALHO =================== -->
+    <div class="tab-pane fade {% if aba_ativa=='dias' %}show active{% endif %}" id="tabDias">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="section-header">Importar Base de Dados</div>
+          <div class="section-box">
+            <form method="POST" action="{{ url_for('rota_pagamentos.importar_dias') }}" enctype="multipart/form-data">
+              <div class="mb-2"><label class="form-label">Título</label><input class="form-control" name="titulo" placeholder="Título da importação"></div>
+              <div class="mb-2"><label class="form-label">Ficheiro (.csv, .xlsx, .ods)</label><input type="file" class="form-control" name="ficheiro" required></div>
+              <button class="btn btn-laranja w-100">IMPORTAR</button>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="section-header">Base de Dados Actual Importada</div>
+          <div class="section-box">
+            <table class="table table-sm table-striped align-middle">
+              <thead><tr><th>Título</th><th>Data</th><th>Utilizador</th><th>IP</th><th></th></tr></thead>
+              <tbody>
+                {% for h in historico_dias %}
+                <tr>
+                  <td>{{h.titulo}}</td>
+                  <td>{{h.data.strftime('%d/%m/%Y %H:%M')}}</td>
+                  <td>{{h.utilizador}}</td>
+                  <td>{{h.ip}}</td>
+                  <td>
+                    <form method="POST" action="{{ url_for('rota_pagamentos.eliminar_historico_dias', hid=h.id) }}" onsubmit="return confirm('Eliminar histórico e base?')">
+                      <button class="btn btn-sm btn-danger">🗑</button>
+                    </form>
+                  </td>
+                </tr>{% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3 text-center">
+        <div class="col-md-4"><div class="card-metric"><span>Total de Contratados Pagos</span><strong id="m_dias_total">0</strong></div></div>
+        <div class="col-md-4"><div class="card-metric"><span>Total de Verbas Pagas (KZ)</span><strong id="m_dias_verba">0</strong></div></div>
+        <div class="col-md-4"><div class="card-metric"><span>Média de Dias Trabalhados</span><strong id="m_dias_media">0</strong></div></div>
+      </div>
+
+      <div class="section-box mt-3">
+        <div class="row g-2 mb-2">
+          <div class="col-md-6">
+            <label>Município</label>
+            <select id="f_dias_mun" class="form-select">
+              <option value="todos">Todos</option>
+              {% for m in municipios_dias %}<option value="{{m}}">{{m}}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label>Categoria / Função</label>
+            <select id="f_dias_cat" class="form-select">
+              <option value="todas">Todas</option>
+              {% for c in categorias_dias %}<option value="{{c}}">{{c}}</option>{% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Nome Completo</th>
+                <th>Município</th>
+                <th>Categoria</th>
+                <th>Valor Transporte</th>
+                <th>Dias Trabalhados</th>
+                <th>Total a Receber</th>
+                <th>Transporte</th>
+                <th>Lanche</th>
+                <th>Saldo de Voz</th>
+              </tr>
+            </thead>
+            <tbody id="tb_dias"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE DETALHES -->
+<div class="modal fade" id="detModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-white" style="background: var(--cor-principal, {{ cores.navbar }});">
+        <h5 class="modal-title">Detalhes do Registo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="detBody"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+function fmtAOA(n){ return Number(n||0).toLocaleString('pt-AO',{style:'currency',currency:'AOA'}); }
+function fillMetrics(prefix, data){
+  document.getElementById(prefix+'_total').textContent = data.total||0;
+  document.getElementById(prefix+'_verba').textContent = fmtAOA(data.verba||0);
+  document.getElementById(prefix+'_media').textContent = data.media||0;
+}
+
+function fillTable(tipo, items){
+  const tb = document.getElementById(tipo==='form' ? 'tb_form' : 'tb_dias');
+  tb.innerHTML='';
+  items.forEach(d=>{
+    const tr=document.createElement('tr');
+    if(tipo==='form'){
+      tr.innerHTML=`<td>${d.nome||''}</td><td>${d.municipio||''}</td><td>${d.categoria||''}</td><td>${fmtAOA(d.valor_trans)||''}</td><td>${d.numDias||''}</td><td>${fmtAOA(d.total_receber)||''}</td>`;
+    }else{
+      tr.innerHTML=`<td>${d.nome||''}</td><td>${d.municipio||''}</td><td>${d.categoria||''}</td><td>${fmtAOA(d.valor_trans)||''}</td><td>${d.numDias||''}</td><td>${fmtAOA(d.total_receber)||''}</td><td>${d.transporte||''}</td><td>${d.lanche||''}</td><td>${d.saldo_voz||''}</td>`;
+    }
+    tr.addEventListener('click',()=>{
+      let html="";
+      if(tipo==='form'){
+        html=`<p><b>Nome:</b> ${d.nome}</p>
+              <p><b>Município:</b> ${d.municipio}</p>
+              <p><b>Categoria:</b> ${d.categoria}</p>
+              <p><b>Valor Transporte:</b> ${fmtAOA(d.valor_trans)}</p>
+              <p><b>Dias Trabalhados:</b> ${d.numDias}</p>
+              <p><b>Total a Receber:</b> <span class='text-success fw-bold'>${fmtAOA(d.total_receber)}</span></p>`;
+      }else{
+        html=`<p><b>Nome:</b> ${d.nome}</p>
+              <p><b>Município:</b> ${d.municipio}</p>
+              <p><b>Categoria:</b> ${d.categoria}</p>
+              <p><b>Valor Transporte:</b> ${fmtAOA(d.valor_trans)}</p>
+              <p><b>Dias Trabalhados:</b> ${d.numDias}</p>
+              <p><b>Total a Receber:</b> <span class='text-success fw-bold'>${fmtAOA(d.total_receber)}</span></p>
+              <hr><p><b>Transporte:</b> ${d.transporte}</p>
+              <p><b>Lanche:</b> ${d.lanche}</p>
+              <p><b>Saldo de Voz:</b> ${d.saldo_voz}</p>`;
+      }
+      document.getElementById('detBody').innerHTML=html;
+      new bootstrap.Modal(document.getElementById('detModal')).show();
+    });
+    tb.appendChild(tr);
+  });
+}
+
+async function loadForm(){
+  const mun=document.getElementById('f_form_mun').value;
+  const cat=document.getElementById('f_form_cat').value;
+  const r=await fetch(`/api/pagamentos/formacoes?municipio=${encodeURIComponent(mun)}&categoria=${encodeURIComponent(cat)}`);
+  const data=await r.json(); fillMetrics('m_form',data); fillTable('form',data.items);
+}
+async function loadDias(){
+  const mun=document.getElementById('f_dias_mun').value;
+  const cat=document.getElementById('f_dias_cat').value;
+  const r=await fetch(`/api/pagamentos/dias?municipio=${encodeURIComponent(mun)}&categoria=${encodeURIComponent(cat)}`);
+  const data=await r.json(); fillMetrics('m_dias',data); fillTable('dias',data.items);
+}
+document.addEventListener('change',e=>{
+  if(e.target.id==='f_form_mun'||e.target.id==='f_form_cat')loadForm();
+  if(e.target.id==='f_dias_mun'||e.target.id==='f_dias_cat')loadDias();
+});
+document.addEventListener('DOMContentLoaded',()=>{loadForm();loadDias();});
+</script>
+
+{% endblock %}
