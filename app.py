@@ -28,6 +28,7 @@ def create_app():
         from modelos.candidato_modelo import Candidato
         from modelos.candidato_selecionado import CandidatoSelecionado, HistoricoImportacao
 
+
         # 🔸 NOVOS MODELOS DE PAGAMENTO
         from modelos.pag_formacoes import PagamentoFormacao
         from modelos.pag_dias_trabalho import PagamentoDiaTrabalho
@@ -43,6 +44,7 @@ def create_app():
     from rotas.padrao_rotas import rota_padrao
     from rotas.candidatos_selecionados_rotas import rota_candidatos_selecionados
     from rotas.pagamentos_rotas import rota_pagamentos
+    from rotas.actividades_rotas import rota_actividades
 
     app.register_blueprint(rota_login)
     app.register_blueprint(rota_index)
@@ -51,6 +53,7 @@ def create_app():
     app.register_blueprint(rota_padrao)
     app.register_blueprint(rota_candidatos_selecionados)
     app.register_blueprint(rota_pagamentos)
+    app.register_blueprint(rota_actividades)
 
     # 🔹 Injeta cores personalizadas nos templates
     @app.context_processor

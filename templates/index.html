@@ -6,7 +6,7 @@
 <div class="position-relative" style="height: 78vh; overflow: hidden;">
 
   <!-- 🔹 Slider de imagens (com fundo escurecido) -->
-  <div id="heroCarousel" class="carousel slide carousel-fade h-100" data-bs-ride="carousel" data-bs-interval="2000">
+  <div id="heroCarousel" class="carousel slide carousel-fade h-100" data-bs-ride="carousel" data-bs-interval="1600">
     <div class="carousel-inner h-100">
 
       <div class="carousel-item active h-100 position-relative">
@@ -34,8 +34,6 @@
         <div class="overlay"></div>
       </div>
 
-
-
     </div>
 
     <!-- 🔹 Controles (setas) -->
@@ -51,21 +49,18 @@
 
   <!-- 🔹 Conteúdo fixo sobre o slide -->
   <div class="position-absolute top-50 start-50 translate-middle text-center text-white" style="z-index: 5;">
-    <!--img src="{{ url_for('static', filename='img/logo_pr.png') }}" alt="Logotipo"
-         class="img-fluid mb-3" style="max-width: 240px; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.7));"-->
     <h1 class="fw-bold text-uppercase"
         style="text-shadow: 0 3px 8px rgba(0,0,0,0.8); letter-spacing: .1em;">
       Campanha de Distribuição Massiva<br>de Mosquiteiros
     </h1>
-  </div>
 
-  <!-- 🔹 Patrocinadores fixos -->
-  <!--div class="position-absolute bottom-0 start-50 translate-middle-x text-center pb-3" style="z-index: 5;">
-    <img src="{{ url_for('static', filename='img/logo1.png') }}" alt="Ministério da Saúde" class="mx-2" height="50">
-    <img src="{{ url_for('static', filename='img/logo2.png') }}" alt="Global Fund" class="mx-2" height="50">
-    <img src="{{ url_for('static', filename='img/logo3.png') }}" alt="PNUD" class="mx-2" height="50">
-    <img src="{{ url_for('static', filename='img/logo4.png') }}" alt="World Vision" class="mx-2" height="50">
-  </div-->
+    <!-- 🔹 Botão Ver Últimas Atividades -->
+    <a href="{{ url_for('rota_actividades.actividades') }}"
+       class="btn mt-4 px-4 py-2 fw-semibold"
+       style="background-color: var(--cor-principal, #fb6e2b); color: #fff; border-radius: 8px; text-decoration: none; transition: all 0.3s;">
+      Ver Últimas Atividades
+    </a>
+  </div>
 
 </div>
 
@@ -89,6 +84,14 @@
   .carousel-control-prev-icon,
   .carousel-control-next-icon {
     filter: brightness(0) invert(1); /* deixa as setas brancas */
+  }
+
+  /* Hover do botão */
+  .btn:hover {
+    background: #fff !important;
+    color: var(--cor-principal, #fb6e2b) !important;
+    border: 1px solid var(--cor-principal, #fb6e2b);
+    box-shadow: 0 0 10px rgba(251,110,43,0.5);
   }
 </style>
 {% endblock %}

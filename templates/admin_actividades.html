@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<style>
+  .section-header {background: var(--cor-principal, #fb6e2b); color:#fff; padding:10px 15px; border-radius:6px;}
+  .btn-laranja {background: var(--cor-principal, #fb6e2b); color:#fff; border:none;}
+  .btn-laranja:hover {filter:brightness(.9);}
+  .table th{background:var(--cor-principal, #fb6e2b); color:#fff;}
+  #preview {max-width:120px; border-radius:6px; margin-top:4px;}
+
+
+
+
+</style>
+
+
+
+<div class="container mt-3" style="max-width:1100px;">
+
+  <div class="section-header">Gestão de Atividades</div>
+
+  <div class="section-box bg-white p-3 rounded shadow-sm mt-2">
+    <form method="POST" action="{{ url_for('rota_actividades.nova_actividade') }}" enctype="multipart/form-data">
+      <div class="row g-2">
+        <div class="col-md-6">
+          <label class="form-label">Título</label>
+          <input type="text" name="titulo" class="form-control" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Data da Atividade</label>
+          <input type="date" name="data_atividade" class="form-control" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Foto</label>
+          <input type="file" name="foto" id="foto" class="form-control">
+          <img id="preview" src="#" style="display:none;">
+        </div>
+        <div class="col-12 mt-2">
+          <label class="form-label">Corpo da Publicação</label>
+          <textarea name="corpo" class="form-control" rows="3" required></textarea>
+        </div>
+        <div class="col-12 text-end mt-3">
+          <button class="btn btn-laranja">PUBLICAR</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="section-box bg-white p-3 rounded shadow-sm mt-4">
+    <h5>Publicações Existentes</h5>
+    <table class="table table-striped align-middle mt-2">
+      <thead><tr><th>Título</th><th>Data Atividade</th><th>Publicação</th><th>Autor</th><th></th></tr></thead>
+      <tbody>
+        {% for a in actividades %}
+        <tr>
+          <td>{{ a.titulo }}</td>
+          <td>{{ a.data_atividade }}</td>
+          <td>{{ a.data_publicacao.strftime('%d/%m/%Y %H:%M') }}</td>
+          <td>{{ a.autor }}</td>
+          <td class="text-end">
+            <button class="btn btn-sm btn-warning me-1" onclick="abrirEditar({{ a.id }})">✏️</button>
+            <form method="POST" action="{{ url_for('rota_actividades.eliminar_actividade', aid=a.id) }}" style="display:inline;">
+              <button class="btn btn-sm btn-danger" onclick="return confirm('Eliminar esta publicação?')">🗑️</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" class="text-center text-muted">Nenhuma publicação ainda.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal de Edição -->
+<div class="modal fade" id="modalEditar" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-warning text-white">
+        <h5 class="modal-title">Editar Publicação</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditar" enctype="multipart/form-data">
+          <input type="hidden" id="edit_id">
+          <div class="row g-2">
+            <div class="col-md-6">
+              <label class="form-label">Título</label>
+              <input type="text" id="edit_titulo" name="titulo" class="form-control" required>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Data da Atividade</label>
+              <input type="date" id="edit_data" name="data_atividade" class="form-control" required>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Foto</label>
+              <input type="file" id="edit_foto" name="foto" class="form-control">
+              <img id="edit_preview" src="#" style="display:none;max-width:120px;border-radius:6px;margin-top:4px;">
+            </div>
+            <div class="col-12 mt-2">
+              <label class="form-label">Corpo da Publicação</label>
+              <textarea id="edit_corpo" name="corpo" class="form-control" rows="4" required></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <button class="btn btn-laranja" id="btnSalvarEdit">Guardar Alterações</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Preview de imagem (criação)
+  document.getElementById('foto').addEventListener('change', function(e){
+    const img = document.getElementById('preview');
+    const file = e.target.files[0];
+    if(file){
+      img.src = URL.createObjectURL(file);
+      img.style.display='block';
+    } else img.style.display='none';
+  });
+
+  // Preview de imagem (edição)
+  document.getElementById('edit_foto').addEventListener('change', function(e){
+    const img = document.getElementById('edit_preview');
+    const file = e.target.files[0];
+    if(file){
+      img.src = URL.createObjectURL(file);
+      img.style.display='block';
+    }
+  });
+
+  // Abrir modal de edição
+  async function abrirEditar(id){
+    const r = await fetch(`/admin/actividades/${id}/json`);
+    const data = await r.json();
+    document.getElementById('edit_id').value = data.id;
+    document.getElementById('edit_titulo').value = data.titulo;
+    document.getElementById('edit_data').value = data.data_atividade;
+    document.getElementById('edit_corpo').value = data.corpo;
+    if(data.foto){
+      const img = document.getElementById('edit_preview');
+      img.src = data.foto;
+      img.style.display='block';
+    }
+    new bootstrap.Modal(document.getElementById('modalEditar')).show();
+  }
+
+  // Guardar edição
+  document.getElementById('btnSalvarEdit').addEventListener('click', async ()=>{
+    const id = document.getElementById('edit_id').value;
+    const formData = new FormData(document.getElementById('formEditar'));
+    const r = await fetch(`/admin/actividades/editar/${id}`, {
+      method: 'POST',
+      body: formData
+    });
+    const data = await r.json();
+    if(data.success){
+      location.reload();
+    } else {
+      alert('Erro ao editar: ' + data.msg);
+    }
+  });
+</script>
+{% endblock %}

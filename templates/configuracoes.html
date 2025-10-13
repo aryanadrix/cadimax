@@ -2,6 +2,32 @@
 {% block titulo %}CDM-BIÉ: Configurações{% endblock %}
 
 {% block conteudo %}
+
+<style>
+.btn-gestao-atividades {
+  display: inline-block;
+  background: var(--cor-principal, #fb6e2b);
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.btn-gestao-atividades:hover {
+  background: #fff;
+  color: var(--cor-principal, #fb6e2b);
+  border: 1px solid var(--cor-principal, #fb6e2b);
+  box-shadow: 0 0 10px rgba(251, 110, 43, 0.4);
+}
+</style>
+
+
+
+
+
+
+
 <div class="container" style="max-width: 1200px; margin: auto;">
 <div class="container-fluid py-4">
 
@@ -173,27 +199,47 @@
       </div>
     </div>
 
-<!-- PERSONALIZAÇÃO DE TEMA -->
-<div class="card mb-4">
-  <div class="card-header bg-white fw-bold text-primary">
-    <i class="bi bi-palette me-2"></i> Personalização de Tema
+
+
+<hr class="mt-5 mb-4">
+
+
+<div class="row align-items-center">
+
+  <!-- COLUNA ESQUERDA – PERSONALIZAÇÃO DE TEMA -->
+  <div class="col-md-6">
+    <div class="card-body">
+      <form method="POST" action="{{ url_for('rota_config.guardar_cores_rota') }}" class="d-flex align-items-center">
+        <label for="cor_global" class="me-3 mb-0">Defina a cor do teu template:</label>
+        <input type="color" id="cor_global" name="cor_global" value="{{ cores.navbar }}" class="form-control form-control-color me-3" style="width: 60px;">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </form>
+    </div>
   </div>
-  <div class="card-body">
-    <form method="POST" action="{{ url_for('rota_config.guardar_cores_rota') }}" class="d-flex align-items-center">
-      <label for="cor_global" class="me-3 mb-0">Cor principal:</label>
-      <input type="color" id="cor_global" name="cor_global" value="{{ cores.navbar }}" class="form-control form-control-color me-3" style="width: 60px;">
-      <button type="submit" class="btn btn-primary">Guardar</button>
-    </form>
+
+  <!-- COLUNA DIREITA – GESTÃO DE ATIVIDADES -->
+  <div class="col-md-6 text-end">
+    <a href="{{ url_for('rota_actividades.admin_actividades') }}" class="btn-gestao-atividades">
+      Aceder à Área de Gestão de Atividades →
+    </a>
   </div>
+
 </div>
+
 
   </div>
 </div>
     </div>
 {% endblock %}
 
-<!--
-flask shell
->>> from baseDados.conexao import db
->>> from modelos.utilizador_modelo import Utilizador
->>> db.create_all()-->
+
+
+
+
+
+
+
+
+
+
+
