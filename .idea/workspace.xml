@@ -4,23 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="CADIMAX MÓDULO 2 (bases)">
-      <change afterPath="$PROJECT_DIR$/modelos/pag_dias_trabalho.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modelos/pag_formacoes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rotas/pagamentos_rotas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/pagamentos.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance/local.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/config/cores.json" beforeDir="false" afterPath="$PROJECT_DIR$/static/config/cores.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/candidatos_selecionados.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/candidatos_selecionados.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/candidaturas.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/candidaturas.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/configuracoes.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/configuracoes.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
-    </list>
+    <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="CDM-BIÉ: MÓDULO 3" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -111,7 +95,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760130798324</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="CDM-BIÉ: MÓDULO 3">
+      <option name="closed" value="true" />
+      <created>1760370635438</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1760370635438</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -128,6 +120,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="CADIMAX MÓDULO 2" />
     <MESSAGE value="CADIMAX MÓDULO 2 (bases)" />
-    <option name="LAST_COMMIT_MESSAGE" value="CADIMAX MÓDULO 2 (bases)" />
+    <MESSAGE value="CDM-BIÉ: MÓDULO 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="CDM-BIÉ: MÓDULO 3" />
   </component>
 </project>
