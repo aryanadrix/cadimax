@@ -17,6 +17,7 @@
 <div class="card-header bg-warning text-white" style="background-color: #ff7b00 !important;">Importar Base de Dados</div>
         <div class="card-body">
           <form method="POST" enctype="multipart/form-data">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
 
 
@@ -72,6 +73,7 @@
 
   <!-- Filtros -->
   <form method="GET" class="row g-3 mb-4">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="col-md-5">
       <select name="municipio" class="form-select">
         <option value="">Todos os municípios</option>

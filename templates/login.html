@@ -21,7 +21,7 @@
 
         <!-- Formulário -->
         <form method="POST" action="{{ url_for('rota_login.login') }}" class="login-form">
-
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <input type="text" name="username" class="form-control" placeholder="Utilizador" required>
             <input type="password" name="senha" class="form-control" placeholder="Palavra-passe" required>
 

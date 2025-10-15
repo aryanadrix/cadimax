@@ -20,6 +20,7 @@
 
   <div class="section-box bg-white p-3 rounded shadow-sm mt-2">
     <form method="POST" action="{{ url_for('rota_actividades.nova_actividade') }}" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <div class="row g-2">
         <div class="col-md-6">
           <label class="form-label">Título</label>
@@ -59,7 +60,8 @@
           <td class="text-end">
             <button class="btn btn-sm btn-warning me-1" onclick="abrirEditar({{ a.id }})">✏️</button>
             <form method="POST" action="{{ url_for('rota_actividades.eliminar_actividade', aid=a.id) }}" style="display:inline;">
-              <button class="btn btn-sm btn-danger" onclick="return confirm('Eliminar esta publicação?')">🗑️</button>
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="btn btn-sm btn-danger" onclick="return confirm('Eliminar esta publicação?')">🗑️</button>
             </form>
           </td>
         </tr>

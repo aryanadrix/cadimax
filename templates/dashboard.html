@@ -227,6 +227,7 @@ setTimeout(() => {
     <div class="card-import">
       <h5>Importar Base de Dados</h5>
       <form method="POST" enctype="multipart/form-data" action="{{ url_for('rota_dashboard.importar_bd') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="file" name="ficheiro" accept=".csv,.xlsx,.ods" class="form-control" required>
         <button class="btn btn-primary mt-3">Importar</button>
       </form>
@@ -238,6 +239,7 @@ setTimeout(() => {
       <p><b>Utilizador:</b> {{ utilizador or 'Administrador Geral' }}</p>
       <p><b>IP:</b> {{ ip or '127.0.0.1' }}</p>
       <form method="POST" action="{{ url_for('rota_dashboard.eliminar_bd') }}" class="mt-3">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <button type="submit" class="btn btn-danger w-100">
     Eliminar Base de Dados
   </button>

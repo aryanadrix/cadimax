@@ -167,7 +167,7 @@ label, .form-label {
       <div class="section-header">Importar Base de Dados</div>
       <div class="section-box">
         <form method="POST" action="{{ url_for('rota_pagamentos.importar_formacoes') }}" enctype="multipart/form-data">
-
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
             <!--div class="mb-2"><label class="form-label">Título</label><input class="form-control" name="titulo" placeholder="Título da importação não obrigatório"></div-->
 
@@ -190,7 +190,8 @@ label, .form-label {
               <td>{{h.ip}}</td>
               <td>
                 <form method="POST" action="{{ url_for('rota_pagamentos.eliminar_historico_formacoes', hid=h.id) }}" onsubmit="return confirm('Eliminar histórico e base?')">
-                  <button class="btn btn-sm btn-danger">🗑</button>
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="btn btn-sm btn-danger">🗑</button>
                 </form>
               </td>
             </tr>{% endfor %}
@@ -259,7 +260,8 @@ label, .form-label {
           <div class="section-header">Importar Base de Dados</div>
           <div class="section-box">
             <form method="POST" action="{{ url_for('rota_pagamentos.importar_dias') }}" enctype="multipart/form-data">
-              <!--div class="mb-2"><label class="form-label">Título</label><input class="form-control" name="titulo" placeholder="Título da importação"></div-->
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <!--div class="mb-2"><label class="form-label">Título</label><input class="form-control" name="titulo" placeholder="Título da importação"></div-->
               <div class="mb-2"><label class="form-label">Ficheiro (.csv, .xlsx, .ods)</label><input type="file" class="form-control" name="ficheiro" required></div>
               <button class="btn btn-laranja w-100">IMPORTAR</button>
             </form>
@@ -280,7 +282,8 @@ label, .form-label {
                   <td>{{h.ip}}</td>
                   <td>
                     <form method="POST" action="{{ url_for('rota_pagamentos.eliminar_historico_dias', hid=h.id) }}" onsubmit="return confirm('Eliminar histórico e base?')">
-                      <button class="btn btn-sm btn-danger">🗑</button>
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button class="btn btn-sm btn-danger">🗑</button>
                     </form>
                   </td>
                 </tr>{% endfor %}

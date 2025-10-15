@@ -2,11 +2,12 @@ from flask_migrate import Migrate
 from baseDados.conexao import db
 import os
 from flask import Flask
+from flask_wtf import CSRFProtect
 
+csrf = CSRFProtect()
 
 def create_app():
     app = Flask(__name__)
-
     app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
 
     app.config.update({
@@ -27,17 +28,19 @@ def create_app():
     # Inicializa o banco
     db.init_app(app)
 
+    csrf.init_app(app)
+
     # 🔹 Inicializa o Migrate (adiciona esta linha)
     migrate = Migrate(app, db)
 
     # (Opcional) CSRF
 
     #if os.getenv('FLASK_ENV') == 'production':
-    try:
-        from flask_wtf.csrf import CSRFProtect
-        CSRFProtect(app)
-    except Exception:
-       pass
+    #try:
+    #    from flask_wtf.csrf import CSRFProtect
+    #    CSRFProtect(app)
+    #except Exception:
+    #   pass
 
     with app.app_context():
         from modelos.utilizador_modelo import Utilizador

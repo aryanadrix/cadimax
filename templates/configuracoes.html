@@ -81,6 +81,7 @@
             <td>{{ u.criado_em.strftime('%d/%m/%Y') }}</td>
             <td class="text-center">
               <form method="POST" action="{{ url_for('rota_config.apagar_utilizador', id=u.id) }}" onsubmit="return confirm('Apagar este utilizador?')">
+               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <button class="btn btn-sm btn-danger">🗑️</button>
               </form>
             </td>
@@ -107,6 +108,7 @@
         <h6 class="fw-semibold mb-3 text-primary">Importar Base de Dados para Análise e Exposição dos Candidatos</h6>
 
         <form method="POST" action="{{ url_for('rota_config.importar_db') }}" enctype="multipart/form-data">
+         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <div class="mb-3">
             <label class="form-label">Título</label>
             <input type="text" name="titulo" class="form-control" required>
@@ -161,6 +163,7 @@
         <h5 class="fw-semibold mb-3 text-primary">Repositório de Documentos</h5>
 
         <form method="POST" action="{{ url_for('rota_config.upload_doc') }}" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <input type="text" name="titulo_doc" class="form-control mb-2" placeholder="Título" required>
           <input type="file" name="ficheiro_doc" class="form-control mb-2" accept=".pdf" required>
           <button class="btn btn-primary w-100">Enviar</button>
@@ -210,6 +213,7 @@
   <div class="col-md-6">
     <div class="card-body">
       <form method="POST" action="{{ url_for('rota_config.guardar_cores_rota') }}" class="d-flex align-items-center">
+       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <label for="cor_global" class="me-3 mb-0">Defina a cor do teu template:</label>
         <input type="color" id="cor_global" name="cor_global" value="{{ cores.navbar }}" class="form-control form-control-color me-3" style="width: 60px;">
         <button type="submit" class="btn btn-primary">Guardar</button>
