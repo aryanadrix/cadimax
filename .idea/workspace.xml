@@ -4,24 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="CDM-BIÉ: MÓDULO ATIVIDADES II">
-      <change afterPath="$PROJECT_DIR$/modelos/dashboard_dados.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/dashboard.html" afterDir="false" />
+    <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="CDM-BIÉ: FINAL">
+      <change beforePath="$PROJECT_DIR$/.idea/csv-editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/bin/f2py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/f2py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/bin/flask" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/flask" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.venv/bin/numpy-config" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/numpy-config" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance/local.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modelos/pag_dias_trabalho.py" beforeDir="false" afterPath="$PROJECT_DIR$/modelos/pag_dias_trabalho.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modelos/pag_formacoes.py" beforeDir="false" afterPath="$PROJECT_DIR$/modelos/pag_formacoes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rotas/dashboard_rotas.py" beforeDir="false" afterPath="$PROJECT_DIR$/rotas/dashboard_rotas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rotas/login_rotas.py" beforeDir="false" afterPath="$PROJECT_DIR$/rotas/login_rotas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rotas/pagamentos_rotas.py" beforeDir="false" afterPath="$PROJECT_DIR$/rotas/pagamentos_rotas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/candidatos_selecionados.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/candidatos_selecionados.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/pagamentos.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/pagamentos.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,27 +49,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.app.executor": "Run",
-    "Python.candidatos_selecionados_rotas.executor": "Run",
-    "Python.config_rotas.executor": "Debug",
-    "Python.criar_admin.executor": "Run",
-    "Python.dashboard_rotas.executor": "Debug",
-    "Python.pag_dias_trabalho.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Shell Script.run_local.sh.executor": "Run",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "settings.editor.selected.configurable": "preferences.externalResources",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.candidatos_selecionados_rotas.executor&quot;: &quot;Run&quot;,
+    &quot;Python.config_rotas.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.criar_admin.executor&quot;: &quot;Run&quot;,
+    &quot;Python.dashboard_rotas.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.pag_dias_trabalho.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Shell Script.run_local.sh.executor&quot;: &quot;Run&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.externalResources&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/rotas" />
@@ -151,7 +138,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760388728903</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="CDM-BIÉ: FINAL">
+      <option name="closed" value="true" />
+      <created>1760492538766</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1760492538767</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -171,6 +166,7 @@
     <MESSAGE value="CDM-BIÉ: MÓDULO 3" />
     <MESSAGE value="CDM-BIÉ: MÓDULO ATIVIDADES" />
     <MESSAGE value="CDM-BIÉ: MÓDULO ATIVIDADES II" />
-    <option name="LAST_COMMIT_MESSAGE" value="CDM-BIÉ: MÓDULO ATIVIDADES II" />
+    <MESSAGE value="CDM-BIÉ: FINAL" />
+    <option name="LAST_COMMIT_MESSAGE" value="CDM-BIÉ: FINAL" />
   </component>
 </project>
