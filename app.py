@@ -32,12 +32,12 @@ def create_app():
 
     # (Opcional) CSRF
 
-    if os.getenv('FLASK_ENV') == 'production':
-    #try:
+    #if os.getenv('FLASK_ENV') == 'production':
+    try:
         from flask_wtf.csrf import CSRFProtect
         CSRFProtect(app)
-    #except Exception:
-     #  pass
+    except Exception:
+       pass
 
     with app.app_context():
         from modelos.utilizador_modelo import Utilizador
