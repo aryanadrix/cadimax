@@ -60,22 +60,16 @@ th { background: var(--brand)!important; color: #fff }
 .table td:first-child, .table th:first-child { text-align: left; padding-left: 15px; }
 .table-hover tbody tr { cursor: pointer; }
 
-
-
-
-
 /* 🔧 Deixar o texto branco nas seções e tabelas principais */
 .section-header,
 .section-header *,
 label,
 .form-label,
 th,
-
 .section-box h5,
 .section-box h6 {
   color: #fff !important;
 }
-
 
 /* 🔧 Para harmonizar inputs e títulos */
 label, .form-label {
@@ -84,95 +78,179 @@ label, .form-label {
 }
 </style>
 
-
 <div class="container mt-3" style="max-width: 1300px;">
-
-
-      <div class="d-flex justify-content-between align-items-center mb-3">
-    <!--h4 class="fw-semibold text-dark mb-0">Configurações</h4-->
+  <div class="d-flex justify-content-between align-items-center mb-3">
     <small class="text-muted">Importações, histórico, filtros e registo de pagamento dos contratados</small>
   </div>
-
 
   <ul class="nav nav-tabs" id="tabs" role="tablist">
     <li class="nav-item"><button class="nav-link {% if aba_ativa=='formacoes' %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#tabForm">PAGAMENTOS DAS FORMAÇÕES</button></li>
     <li class="nav-item"><button class="nav-link {% if aba_ativa=='dias' %}active{% endif %}" data-bs-toggle="tab" data-bs-target="#tabDias">PAGAMENTOS DE DIAS DE TRABALHO</button></li>
   </ul>
 
-
-
-
-
   <div class="tab-content mt-3">
-    <!-- =================== FORMAÇÕES =================== -->
-    <div class="tab-pane fade {% if aba_ativa=='formacoes' %}show active{% endif %}" id="tabForm">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="section-header">Importar Base de Dados</div>
-          <div class="section-box">
-            <form method="POST" action="{{ url_for('rota_pagamentos.importar_formacoes') }}" enctype="multipart/form-data">
-              <div class="mb-2"><label class="form-label">Título</label><input class="form-control" name="titulo" placeholder="Título da importação não obrigatório"></div>
-              <div class="mb-2"><label class="form-label">Ficheiro (.csv, .xlsx, .ods)</label><input type="file" class="form-control" name="ficheiro" required></div>
-              <button class="btn btn-laranja w-100">IMPORTAR</button>
-            </form>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="section-header">Base de Dados Actual Importada</div>
-          <div class="section-box">
-            <table class="table table-sm table-striped align-middle">
-              <thead><tr><th>Título</th><th>Data</th><th>Utilizador</th><th>IP</th><th></th></tr></thead>
-              <tbody>
-                {% for h in historico_formacoes %}
-                <tr>
-                  <td>{{h.titulo}}</td>
-                  <td>{{h.data.strftime('%d/%m/%Y %H:%M')}}</td>
-                  <td>{{h.utilizador}}</td>
-                  <td>{{h.ip}}</td>
-                  <td>
-                    <form method="POST" action="{{ url_for('rota_pagamentos.eliminar_historico_formacoes', hid=h.id) }}" onsubmit="return confirm('Eliminar histórico e base?')">
-                      <button class="btn btn-sm btn-danger">🗑</button>
-                    </form>
-                  </td>
-                </tr>{% endfor %}
-              </tbody>
-            </table>
-          </div>
+    <!-- =================== FORMAÇÕES ===================
+  <div class="tab-pane fade {% if aba_ativa=='formacoes' %}show active{% endif %}" id="tabForm">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="section-header">Importar Base de Dados</div>
+        <div class="section-box">
+          <form method="POST" action="{{ url_for('rota_pagamentos.importar_formacoes') }}" enctype="multipart/form-data">
+            <div class="mb-2"><label class="form-label">Título</label><input class="form-control" name="titulo" placeholder="Título da importação não obrigatório"></div>
+            <div class="mb-2"><label class="form-label">Ficheiro (.csv, .xlsx, .ods)</label><input type="file" class="form-control" name="ficheiro" required></div>
+            <button class="btn btn-laranja w-100">IMPORTAR</button>
+          </form>
         </div>
       </div>
-
-      <div class="row mt-3 text-center">
-        <div class="col-md-4"><div class="card-metric"><span>Total de Contratados Pagos</span><strong id="m_form_total">0</strong></div></div>
-        <div class="col-md-4"><div class="card-metric"><span>Total de Verbas Pagas (KZ)</span><strong id="m_form_verba">0</strong></div></div>
-        <div class="col-md-4"><div class="card-metric"><span>Média de Dias Trabalhados</span><strong id="m_form_media">0</strong></div></div>
-      </div>
-
-      <div class="section-box mt-3">
-        <div class="row g-2 mb-2">
-          <div class="col-md-6">
-            <label>Município</label>
-            <select id="f_form_mun" class="form-select">
-              <option value="todos">Todos</option>
-              {% for m in municipios_formacoes %}<option value="{{m}}">{{m}}</option>{% endfor %}
-            </select>
-          </div>
-          <div class="col-md-6">
-            <label>Categoria / Função</label>
-            <select id="f_form_cat" class="form-select">
-              <option value="todas">Todas</option>
-              {% for c in categorias_formacoes %}<option value="{{c}}">{{c}}</option>{% endfor %}
-            </select>
-          </div>
-        </div>
-
-        <div class="table-responsive">
-          <table class="table table-hover align-middle">
-            <thead><tr><th>Nome Completo</th><th>Município</th><th>Categoria</th><th>Valor Transporte</th><th>Dias Trabalhados</th><th>Total Recebido</th></tr></thead>
-            <tbody id="tb_form"></tbody>
+      <div class="col-md-6">
+        <div class="section-header">Base de Dados Actual Importada</div>
+        <div class="section-box">
+          <table class="table table-sm table-striped align-middle">
+            <thead><tr><th>Título</th><th>Data</th><th>Utilizador</th><th>IP</th><th></th></tr></thead>
+            <tbody>
+              {% for h in historico_formacoes %}
+              <tr>
+                <td>{{h.titulo}}</td>
+                <td>{{h.data.strftime('%d/%m/%Y %H:%M')}}</td>
+                <td>{{h.utilizador}}</td>
+                <td>{{h.ip}}</td>
+                <td>
+                  <form method="POST" action="{{ url_for('rota_pagamentos.eliminar_historico_formacoes', hid=h.id) }}" onsubmit="return confirm('Eliminar histórico e base?')">
+                    <button class="btn btn-sm btn-danger">🗑</button>
+                  </form>
+                </td>
+              </tr>{% endfor %}
+            </tbody>
           </table>
         </div>
       </div>
     </div>
+
+    <div class="row mt-3 text-center">
+      <div class="col-md-4"><div class="card-metric"><span>Total de Contratados Pagos</span><strong id="m_form_total">0</strong></div></div>
+      <div class="col-md-4"><div class="card-metric"><span>Total de Verbas Pagas (KZ)</span><strong id="m_form_verba">0</strong></div></div>
+      <div class="col-md-4"><div class="card-metric"><span>Média de Dias Trabalhados</span><strong id="m_form_media">0</strong></div></div>
+    </div>
+
+    <div class="section-box mt-3">
+      <div class="row g-2 mb-2">
+        <div class="col-md-6">
+          <label>Município</label>
+          <select id="f_form_mun" class="form-select">
+            <option value="todos">Todos</option>
+            {% for m in municipios_formacoes %}<option value="{{m}}">{{m}}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label>Categoria / Função</label>
+          <select id="f_form_cat" class="form-select">
+            <option value="todas">Todas</option>
+            {% for c in categorias_formacoes %}<option value="{{c}}">{{c}}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead><tr><th>Nome Completo</th><th>Município</th><th>Categoria</th><th>Valor Transporte</th><th>Dias Trabalhados</th><th>Total Recebido</th></tr></thead>
+          <tbody id="tb_form"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>-->
+
+
+<!-- =================== FORMAÇÕES =================== -->
+<div class="tab-pane fade {% if aba_ativa=='formacoes' %}show active{% endif %}" id="tabForm">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="section-header">Importar Base de Dados</div>
+      <div class="section-box">
+        <form method="POST" action="{{ url_for('rota_pagamentos.importar_formacoes') }}" enctype="multipart/form-data">
+
+
+            <!--div class="mb-2"><label class="form-label">Título</label><input class="form-control" name="titulo" placeholder="Título da importação não obrigatório"></div-->
+
+          <div class="mb-2"><label class="form-label">Ficheiro (.csv, .xlsx, .ods)</label><input type="file" class="form-control" name="ficheiro" required></div>
+          <button class="btn btn-laranja w-100">IMPORTAR</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="section-header">Base de Dados Actual Importada</div>
+      <div class="section-box">
+        <table class="table table-sm table-striped align-middle">
+          <thead><tr><th>Título</th><th>Data</th><th>Utilizador</th><th>IP</th><th></th></tr></thead>
+          <tbody>
+            {% for h in historico_formacoes %}
+            <tr>
+              <td>{{h.titulo}}</td>
+              <td>{{h.data.strftime('%d/%m/%Y %H:%M')}}</td>
+              <td>{{h.utilizador}}</td>
+              <td>{{h.ip}}</td>
+              <td>
+                <form method="POST" action="{{ url_for('rota_pagamentos.eliminar_historico_formacoes', hid=h.id) }}" onsubmit="return confirm('Eliminar histórico e base?')">
+                  <button class="btn btn-sm btn-danger">🗑</button>
+                </form>
+              </td>
+            </tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 text-center">
+    <div class="col-md-4"><div class="card-metric"><span>Total de Contratados Pagos</span><strong id="m_form_total">0</strong></div></div>
+    <div class="col-md-4"><div class="card-metric"><span>Total de Verbas Pagas (KZ)</span><strong id="m_form_verba">0</strong></div></div>
+    <div class="col-md-4"><div class="card-metric"><span>Média de Dias Trabalhados</span><strong id="m_form_media">0</strong></div></div>
+  </div>
+
+  <div class="section-box mt-3">
+    <div class="row g-2 mb-2">
+      <div class="col-md-6">
+        <label>Município</label>
+        <select id="f_form_mun" class="form-select">
+          <option value="todos">Todos</option>
+          {% for m in municipios_formacoes %}<option value="{{m}}">{{m}}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label>Categoria / Função</label>
+        <select id="f_form_cat" class="form-select">
+          <option value="todas">Todas</option>
+          {% for c in categorias_formacoes %}<option value="{{c}}">{{c}}</option>{% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nº de Controle</th>
+            <th>Nome Completo</th>
+            <th>Categoria</th>
+            <th>Município</th>
+            <th>Comuna</th>
+            <th>Telefone</th>
+            <th>Nº BI</th>
+            <th>IBAN</th>
+            <th>Pagamento Diário</th>
+            <th>Dias Trabalhados</th>
+            <th>Total Recebido</th>
+          </tr>
+        </thead>
+        <tbody id="tb_form"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+
 
     <!-- =================== DIAS DE TRABALHO =================== -->
     <div class="tab-pane fade {% if aba_ativa=='dias' %}show active{% endif %}" id="tabDias">
@@ -181,12 +259,13 @@ label, .form-label {
           <div class="section-header">Importar Base de Dados</div>
           <div class="section-box">
             <form method="POST" action="{{ url_for('rota_pagamentos.importar_dias') }}" enctype="multipart/form-data">
-              <div class="mb-2"><label class="form-label">Título</label><input class="form-control" name="titulo" placeholder="Título da importação"></div>
+              <!--div class="mb-2"><label class="form-label">Título</label><input class="form-control" name="titulo" placeholder="Título da importação"></div-->
               <div class="mb-2"><label class="form-label">Ficheiro (.csv, .xlsx, .ods)</label><input type="file" class="form-control" name="ficheiro" required></div>
               <button class="btn btn-laranja w-100">IMPORTAR</button>
             </form>
           </div>
         </div>
+
         <div class="col-md-6">
           <div class="section-header">Base de Dados Actual Importada</div>
           <div class="section-box">
@@ -239,15 +318,18 @@ label, .form-label {
           <table class="table table-hover align-middle">
             <thead>
               <tr>
+                <th>#</th>
                 <th>Nome Completo</th>
+                <th>Nº BI</th>
+                <th>Telefone</th>
                 <th>Município</th>
+                <th>IBAN</th>
+                <th>Data Início</th>
+                <th>Data Fim</th>
                 <th>Categoria</th>
-                <th>Valor Transporte</th>
+                <th>Pagamento Diário</th>
                 <th>Dias Trabalhados</th>
-                <th>Total a Receber</th>
-                <th>Transporte</th>
-                <th>Lanche</th>
-                <th>Saldo de Voz</th>
+                <th>Total Recebido</th>
               </tr>
             </thead>
             <tbody id="tb_dias"></tbody>
@@ -258,7 +340,7 @@ label, .form-label {
   </div>
 </div>
 
-<!-- MODAL DE DETALHES -->
+<!-- MODAL DETALHES -->
 <div class="modal fade" id="detModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -273,6 +355,7 @@ label, .form-label {
 
 <script>
 function fmtAOA(n){ return Number(n||0).toLocaleString('pt-AO',{style:'currency',currency:'AOA'}); }
+
 function fillMetrics(prefix, data){
   document.getElementById(prefix+'_total').textContent = data.total||0;
   document.getElementById(prefix+'_verba').textContent = fmtAOA(data.verba||0);
@@ -284,30 +367,83 @@ function fillTable(tipo, items){
   tb.innerHTML='';
   items.forEach(d=>{
     const tr=document.createElement('tr');
+
+
+
+
+
+
+
     if(tipo==='form'){
-      tr.innerHTML=`<td>${d.nome||''}</td><td>${d.municipio||''}</td><td>${d.categoria||''}</td><td>${fmtAOA(d.valor_trans)||''}</td><td>${d.numDias||''}</td><td>${fmtAOA(d.total_receber)||''}</td>`;
+      tr.innerHTML=`<td>${d.id||''}</td>
+                    <td>${d.num_de_control_formacoes||''}</td>
+                    <td>${d.nome||''}</td>
+                    <td>${d.categoria||''}</td>
+                    <td>${d.municipio||''}</td>
+                    <td>${d.comuna||''}</td>
+                    <td>${d.telefone_formacoes||''}</td>
+                    <td>${d.numero_bi_formacoes||''}</td>
+                    <td>${d.iban_formacoes||''}</td>
+                    <td>${fmtAOA(d.valor_trans)||''}</td>
+                    <td>${d.numDias||''}</td>
+                    <td>${fmtAOA(d.total_receber)||''}</td>`;
+
+
+
+
+
+
     }else{
-      tr.innerHTML=`<td>${d.nome||''}</td><td>${d.municipio||''}</td><td>${d.categoria||''}</td><td>${fmtAOA(d.valor_trans)||''}</td><td>${d.numDias||''}</td><td>${fmtAOA(d.total_receber)||''}</td><td>${d.transporte||''}</td><td>${d.lanche||''}</td><td>${d.saldo_voz||''}</td>`;
+      tr.innerHTML=`
+        <td>${d.id||''}</td>
+        <td>${d.nome||''}</td>
+        <td>${d.num_bi||''}</td>
+        <td>${d.telefone||''}</td>
+        <td>${d.municipio||''}</td>
+        <td>${d.iban||''}</td>
+        <td>${d.data_inicio||''}</td>
+        <td>${d.data_fim||''}</td>
+        <td>${d.categoria||''}</td>
+        <td>${fmtAOA(d.valor_trans)||''}</td>
+        <td>${d.numDias||''}</td>
+        <td>${fmtAOA(d.total_receber)||''}</td>`;
     }
+
+
+
+
+
+
     tr.addEventListener('click',()=>{
       let html="";
       if(tipo==='form'){
-        html=`<p><b>Nome:</b> ${d.nome}</p>
-              <p><b>Município:</b> ${d.municipio}</p>
+        html=`
+              <p><b>ID:</b> ${d.id}</p>
+              <p><b>Nº de Controle:</b> ${d.num_de_control_formacoes}</p>
+              <p><b>Nome:</b> ${d.nome}</p>
               <p><b>Categoria:</b> ${d.categoria}</p>
-              <p><b>Valor Transporte:</b> ${fmtAOA(d.valor_trans)}</p>
+              <p><b>Município:</b> ${d.municipio}</p>
+              <p><b>Comuna:</b> ${d.comuna}</p>
+              <p><b>Telefone:</b> ${d.telefone_formacoes}</p>
+              <p><b>Nº BI:</b> ${d.numero_bi_formacoes}</p>
+              <p><b>IBAN:</b> ${d.iban_formacoes}</p>
+              <p><b>Pagamento Diário:</b> ${fmtAOA(d.valor_trans)}</p>
+              <p><b>Dias Trabalhados:</b> ${d.numDias}</p>
+              <p><b>Total Recebido:</b> <span class='text-success fw-bold'>${fmtAOA(d.total_receber)}</span></p>`;
+
+      }else{
+        html=`<p><b>ID:</b> ${d.id}</p>
+              <p><b>Nome:</b> ${d.nome}</p>
+              <p><b>Nº BI:</b> ${d.num_bi}</p>
+              <p><b>Telefone:</b> ${d.telefone}</p>
+              <p><b>Município:</b> ${d.municipio}</p>
+              <p><b>IBAN:</b> ${d.iban}</p>
+              <p><b>Data Início:</b> ${d.data_inicio}</p>
+              <p><b>Data Fim:</b> ${d.data_fim}</p>
+              <p><b>Categoria:</b> ${d.categoria}</p>
+              <p><b>Pagamento Diário:</b> ${fmtAOA(d.valor_trans)}</p>
               <p><b>Dias Trabalhados:</b> ${d.numDias}</p>
               <p><b>Total a Receber:</b> <span class='text-success fw-bold'>${fmtAOA(d.total_receber)}</span></p>`;
-      }else{
-        html=`<p><b>Nome:</b> ${d.nome}</p>
-              <p><b>Município:</b> ${d.municipio}</p>
-              <p><b>Categoria:</b> ${d.categoria}</p>
-              <p><b>Valor Transporte:</b> ${fmtAOA(d.valor_trans)}</p>
-              <p><b>Dias Trabalhados:</b> ${d.numDias}</p>
-              <p><b>Total a Receber:</b> <span class='text-success fw-bold'>${fmtAOA(d.total_receber)}</span></p>
-              <hr><p><b>Transporte:</b> ${d.transporte}</p>
-              <p><b>Lanche:</b> ${d.lanche}</p>
-              <p><b>Saldo de Voz:</b> ${d.saldo_voz}</p>`;
       }
       document.getElementById('detBody').innerHTML=html;
       new bootstrap.Modal(document.getElementById('detModal')).show();
@@ -322,12 +458,14 @@ async function loadForm(){
   const r=await fetch(`/api/pagamentos/formacoes?municipio=${encodeURIComponent(mun)}&categoria=${encodeURIComponent(cat)}`);
   const data=await r.json(); fillMetrics('m_form',data); fillTable('form',data.items);
 }
+
 async function loadDias(){
   const mun=document.getElementById('f_dias_mun').value;
   const cat=document.getElementById('f_dias_cat').value;
   const r=await fetch(`/api/pagamentos/dias?municipio=${encodeURIComponent(mun)}&categoria=${encodeURIComponent(cat)}`);
   const data=await r.json(); fillMetrics('m_dias',data); fillTable('dias',data.items);
 }
+
 document.addEventListener('change',e=>{
   if(e.target.id==='f_form_mun'||e.target.id==='f_form_cat')loadForm();
   if(e.target.id==='f_dias_mun'||e.target.id==='f_dias_cat')loadDias();

@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/adrianondongala/Desktop/PROGRAMAS DEV/Marillson/data_warehouse/.venv/bin/python3" "$0" "$@"
+'''exec' "/Volumes/Tito Adriano - Apple/PROJECT DATA WAREHOUSE MAITO/data_warehouse/.venv/bin/python" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re

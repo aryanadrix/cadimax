@@ -4,8 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="CDM-BIÉ: MÓDULO ATIVIDADES">
-      <change beforePath="$PROJECT_DIR$/static/img/logo_pr.png" beforeDir="false" />
+    <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="CDM-BIÉ: MÓDULO ATIVIDADES II">
+      <change afterPath="$PROJECT_DIR$/modelos/dashboard_dados.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/bin/f2py" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/f2py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/bin/flask" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/flask" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.venv/bin/numpy-config" beforeDir="false" afterPath="$PROJECT_DIR$/.venv/bin/numpy-config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/instance/local.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/modelos/pag_dias_trabalho.py" beforeDir="false" afterPath="$PROJECT_DIR$/modelos/pag_dias_trabalho.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modelos/pag_formacoes.py" beforeDir="false" afterPath="$PROJECT_DIR$/modelos/pag_formacoes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotas/dashboard_rotas.py" beforeDir="false" afterPath="$PROJECT_DIR$/rotas/dashboard_rotas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotas/login_rotas.py" beforeDir="false" afterPath="$PROJECT_DIR$/rotas/login_rotas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rotas/pagamentos_rotas.py" beforeDir="false" afterPath="$PROJECT_DIR$/rotas/pagamentos_rotas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/candidatos_selecionados.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/candidatos_selecionados.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/pagamentos.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/pagamentos.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +31,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -55,6 +71,7 @@
     "Python.candidatos_selecionados_rotas.executor": "Run",
     "Python.config_rotas.executor": "Debug",
     "Python.criar_admin.executor": "Run",
+    "Python.dashboard_rotas.executor": "Debug",
     "Python.pag_dias_trabalho.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
@@ -126,7 +143,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760388098146</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="CDM-BIÉ: MÓDULO ATIVIDADES II">
+      <option name="closed" value="true" />
+      <created>1760388728903</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1760388728903</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -145,6 +170,7 @@
     <MESSAGE value="CADIMAX MÓDULO 2 (bases)" />
     <MESSAGE value="CDM-BIÉ: MÓDULO 3" />
     <MESSAGE value="CDM-BIÉ: MÓDULO ATIVIDADES" />
-    <option name="LAST_COMMIT_MESSAGE" value="CDM-BIÉ: MÓDULO ATIVIDADES" />
+    <MESSAGE value="CDM-BIÉ: MÓDULO ATIVIDADES II" />
+    <option name="LAST_COMMIT_MESSAGE" value="CDM-BIÉ: MÓDULO ATIVIDADES II" />
   </component>
 </project>

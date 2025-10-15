@@ -57,7 +57,7 @@ def login():
         if utilizador and check_password_hash(utilizador.senha, senha):
             session['usuario_id'] = utilizador.id
             session['nome'] = utilizador.nome
-            flash(f"👋 Bem-vindo, {utilizador.nome}!", "success")
+            flash(f"👋 Bem-vindo ao Dashboard, {utilizador.nome}!", "success")
             return redirect(url_for('rota_index.index'))
         else:
             flash("❌ Nome de utilizador ou palavra-passe incorretos.", "danger")
@@ -69,5 +69,5 @@ def login():
 @rota_login.route('/logout')
 def logout():
     session.clear()
-    flash("👋 Sessão terminada com sucesso.", "info")
+   # flash("", "info")
     return redirect(url_for('rota_login.login'))

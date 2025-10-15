@@ -16,9 +16,6 @@ class PagamentoDiaTrabalho(db.Model):
     numDias = db.Column(db.Float, default=0.0)
     valor_trans = db.Column(db.Float, default=0.0)
     total_receber = db.Column(db.Float, default=0.0)
-    transporte = db.Column(db.String(10), default='NÃO PAGO')
-    lanche = db.Column(db.String(10), default='NÃO PAGO')
-    saldo_voz = db.Column(db.String(10), default='NÃO PAGO')
 
     def __repr__(self):
         return f'<PagamentoDiaTrabalho {self.nome}>'

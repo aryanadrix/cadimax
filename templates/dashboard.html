@@ -1,0 +1,395 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+<style>
+body {
+  background-color: #f4f6f9;
+  font-family: 'Segoe UI', sans-serif;
+}
+.dashboard-container {
+  padding: 35px;
+  max-width: 1300px;
+  margin: auto;
+}
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 25px;
+}
+.card-import, .card-atual {
+  flex: 1;
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+.card-import h5, .card-atual h5 {
+  color: var(--cor-principal, #fb6e2b);
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+.card-atual {
+  position: relative;
+}
+.card-atual .delete-icon {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: var(--cor-principal, #fb6e2b);
+  cursor: pointer;
+  transition: 0.3s;
+}
+.card-atual .delete-icon:hover {
+  color: #c9302c;
+}
+.mosaic {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+.mosaic .box {
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+.mosaic .box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+.mosaic .box h2 {
+  color: var(--cor-principal, #fb6e2b);
+  font-weight: 700;
+  font-size: 28px;
+  margin: 0;
+}
+.mosaic .box p {
+  color: #555;
+  margin-top: 8px;
+  font-size: 15px;
+}
+.chart-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 30px;
+  margin-top: 40px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+.chart-card h5 {
+  color: #222;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 25px;
+}
+.coluna-expandida {
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  margin-top: 40px;
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+.bottom-mosaic {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 25px;
+}
+.bottom-mosaic .box {
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.bottom-mosaic h2 {
+  color: var(--cor-principal, #fb6e2b);
+  font-weight: 700;
+  font-size: 26px;
+  margin: 0;
+}
+.bottom-mosaic p {
+  color: #555;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+    .btn-warning {
+  background-color: #fb6e2b;
+  border: none;
+  color: white;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.btn-warning:hover {
+  background-color: #d85b1f;
+}
+
+/* 🔸 Hover dos cards inferiores */
+.bottom-mosaic .box:hover {
+  background-color: var(--cor-principal, #fb6e2b);
+  color: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+/* Garante que o texto interno também fica branco no hover */
+.bottom-mosaic .box:hover h2,
+.bottom-mosaic .box:hover p {
+  color: #fff;
+}
+
+/* 🔸 Hover para o card expandido (agregados estimados) */
+.coluna-expandida:hover {
+  background-color: var(--cor-principal, #fb6e2b);
+  color: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+/* Texto branco ao passar o rato */
+.coluna-expandida:hover h2,
+.coluna-expandida:hover p {
+  color: #fff;
+}
+
+/* 🔸 Hover dos 4 cards superiores (População, Orçamento, Recebidos, Distribuídos) */
+.mosaic .box:hover {
+  background-color: var(--cor-principal, #fb6e2b);
+  color: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+/* Garante que os textos também ficam brancos no hover */
+.mosaic .box:hover h2,
+.mosaic .box:hover p {
+  color: #fff;
+}
+
+
+</style>
+
+<div class="dashboard-container">
+
+
+
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  <div id="flash-container" style="position: fixed; top: 20px; right: 20px; z-index: 1055; width: 300px;">
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show shadow" role="alert" style="animation: fadeIn 0.6s;">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endwith %}
+
+
+
+
+
+
+
+    <style>
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<script>
+// 🕒 Auto-remover mensagens após 6 segundos
+setTimeout(() => {
+  const flashContainer = document.getElementById('flash-container');
+  if (flashContainer) {
+    flashContainer.style.transition = 'opacity 1s';
+    flashContainer.style.opacity = '0';
+    setTimeout(() => flashContainer.remove(), 1000);
+  }
+}, 6000);
+</script>
+
+
+
+  <div class="top-row">
+    <div class="card-import">
+      <h5>Importar Base de Dados</h5>
+      <form method="POST" enctype="multipart/form-data" action="{{ url_for('rota_dashboard.importar_bd') }}">
+        <input type="file" name="ficheiro" accept=".csv,.xlsx,.ods" class="form-control" required>
+        <button class="btn btn-primary mt-3">Importar</button>
+      </form>
+    </div>
+
+    <div class="card-atual">
+      <h5>Relatório Visual</h5>
+      <p><b>Data:</b> {{ data_importacao or '—' }}</p>
+      <p><b>Utilizador:</b> {{ utilizador or 'Administrador Geral' }}</p>
+      <p><b>IP:</b> {{ ip or '127.0.0.1' }}</p>
+      <form method="POST" action="{{ url_for('rota_dashboard.eliminar_bd') }}" class="mt-3">
+  <button type="submit" class="btn btn-danger w-100">
+    Eliminar Base de Dados
+  </button>
+</form>
+
+          </div>
+  </div>
+
+  <div class="mosaic">
+    <div class="box"><h2>{{ populacao_provincia or 0 }}</h2><p>População Estimada</p></div>
+    <div class="box"><h2>{{ orcamento_bie or 0 }}</h2><p>Orçamento do Bié (Kz)</p></div>
+    <div class="box"><h2>{{ total_recebidos or 0 }}</h2><p>Mosquiteiros Recebidos</p></div>
+    <div class="box"><h2>{{ total_distribuidos or 0 }}</h2><p>Mosquiteiros Distribuídos</p></div>
+  </div>
+
+  <div class="chart-card">
+    <h5>Distribuição de Mosquiteiros por Município</h5>
+    <canvas id="graficoBarras"></canvas>
+  </div>
+
+  <div class="coluna-expandida">
+    <h2>{{ agregados_estimados or 0 }}</h2>
+    <p>Número de agregados estimados na microplanificação</p>
+  </div>
+
+  <div class="bottom-mosaic">
+    <div class="box"><h2>{{ agregados_alcancados or 0 }}</h2><p>Agregados Alcançados</p></div>
+    <div class="box"><h2>{{ populacao_beneficiada or 0 }}</h2><p>População Beneficiada</p></div>
+    <div class="box"><h2>{{ gravidas_beneficiadas or 0 }}</h2><p>Grávidas Beneficiadas</p></div>
+    <div class="box"><h2>{{ criancas_beneficiadas or 0 }}</h2><p>Crianças &lt; 5 anos Beneficiadas</p></div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('graficoBarras').getContext('2d');
+
+// 🔹 Dados vindos do Flask
+const municipios = {{ municipios|default([])|tojson }};
+const valores = {{ valores_municipios|default([])|tojson }};
+const totalGeral = valores.reduce((a, b) => a + b, 0);
+
+// 🔹 Referência ao título dinâmico
+let tituloInfo = null;
+
+// 🔹 Criação inicial do gráfico
+let grafico = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: municipios,
+    datasets: [{
+      label: 'Mosquiteiros Distribuídos',
+      data: valores,
+      backgroundColor: 'rgba(251, 110, 43, 0.8)',
+      borderColor: 'rgba(251, 110, 43, 1)',
+      borderWidth: 1,
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { color: '#333' },
+        grid: { color: 'rgba(0,0,0,0.05)' }
+      },
+      x: {
+        ticks: { color: '#333' }
+      }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: true }
+    },
+    animation: {
+      duration: 800,
+      easing: 'easeOutQuart'
+    },
+    // 🔸 Clique em barras
+    onClick: (evt, elements) => {
+      if (elements.length > 0) {
+        const i = elements[0].index;
+        const municipio = municipios[i];
+        const valor = valores[i];
+        mostrarBarraIndividual(municipio, valor);
+      } else {
+        restaurarGrafico();
+      }
+    }
+  }
+});
+
+// 🔹 Mostrar apenas uma barra com destaque e percentagem
+function mostrarBarraIndividual(municipio, valor) {
+  const percentagem = ((valor / totalGeral) * 100).toFixed(2);
+
+  grafico.data.labels = [municipio];
+  grafico.data.datasets[0].data = [valor];
+  grafico.data.datasets[0].backgroundColor = 'rgba(251, 110, 43, 1)';
+  grafico.data.datasets[0].borderColor = '#000';
+  grafico.data.datasets[0].borderWidth = 2;
+  grafico.options.scales.y.max = valor * 1.4;
+  grafico.update();
+
+  // 🔹 Cria o título acima do gráfico (se ainda não existir)
+  if (!tituloInfo) {
+    tituloInfo = document.createElement('div');
+    tituloInfo.id = 'titulo-info';
+    tituloInfo.style.textAlign = 'center';
+    tituloInfo.style.margin = '12px 0';
+    tituloInfo.style.fontWeight = '700';
+    tituloInfo.style.fontSize = '17px';
+    tituloInfo.style.color = 'var(--cor-principal, #fb6e2b)';
+    grafico.canvas.parentNode.insertBefore(tituloInfo, grafico.canvas);
+  }
+
+  // 🔹 Mostra informações detalhadas com percentagem
+  tituloInfo.innerHTML = `
+    📍 <span style="color:#000">Município:</span> <b>${municipio}</b> &nbsp;|&nbsp;
+    <span style="color:#000">Distribuídos:</span> <b>${valor}</b>
+    &nbsp;(<span style="color:#555">${percentagem}% do total</span>)
+  `;
+}
+
+// 🔹 Restaurar gráfico completo
+function restaurarGrafico() {
+  grafico.data.labels = municipios;
+  grafico.data.datasets[0].data = valores;
+  grafico.data.datasets[0].backgroundColor = 'rgba(251, 110, 43, 0.8)';
+  grafico.data.datasets[0].borderColor = 'rgba(251, 110, 43, 1)';
+  grafico.data.datasets[0].borderWidth = 1;
+  grafico.options.scales.y.max = undefined;
+  grafico.update();
+
+  if (tituloInfo) tituloInfo.remove();
+  tituloInfo = null;
+}
+
+// 🔹 Clicar fora do gráfico restaura tudo
+document.addEventListener('click', function(e) {
+  const chartArea = grafico.canvas.getBoundingClientRect();
+  const dentro =
+    e.clientX >= chartArea.left &&
+    e.clientX <= chartArea.right &&
+    e.clientY >= chartArea.top &&
+    e.clientY <= chartArea.bottom;
+
+  if (!dentro) restaurarGrafico();
+});
+</script>
+
+
+{% endblock %}

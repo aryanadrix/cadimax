@@ -147,7 +147,7 @@
           <li class="nav-item {% if request.path.startswith('/candidatos_selecionados') %}active{% endif %}">
             <a class="nav-link" href="{{ url_for('rota_candidatos_selecionados.candidatos_selecionados') }}">
               <img class="icon-white" src="{{ url_for('static', filename='img/3.svg') }}" alt="">
-              Candidatos Selecionados
+              Selecionados
             </a>
           </li>
 
@@ -158,15 +158,17 @@
             </a>
           </li>
 
-          <li class="nav-item {% if request.path.startswith('/registo_af') %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('rota_padrao.em_construcao') }}">
+
+          <li class="nav-item {% if request.path.startswith('/actividades') %}active{% endif %}">
+            <a class="nav-link" href="{{ url_for('rota_actividades.actividades') }}">
               <img class="icon-white" src="{{ url_for('static', filename='img/5.svg') }}" alt="">
-              Registo dos AF e Distribuição
+              Principais Actividades
             </a>
           </li>
 
+
           <li class="nav-item {% if request.path.startswith('/dashboard') %}active{% endif %}">
-            <a class="nav-link" href="{{ url_for('rota_padrao.em_construcao') }}">
+            <a class="nav-link" href="{{ url_for('rota_dashboard.dashboard') }}">
               <img class="icon-white" src="{{ url_for('static', filename='img/6.svg') }}" alt="">
               Dashboard
             </a>

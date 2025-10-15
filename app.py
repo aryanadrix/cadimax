@@ -45,6 +45,8 @@ def create_app():
     from rotas.candidatos_selecionados_rotas import rota_candidatos_selecionados
     from rotas.pagamentos_rotas import rota_pagamentos
     from rotas.actividades_rotas import rota_actividades
+    from rotas.dashboard_rotas import rota_dashboard
+
 
     app.register_blueprint(rota_login)
     app.register_blueprint(rota_index)
@@ -54,6 +56,7 @@ def create_app():
     app.register_blueprint(rota_candidatos_selecionados)
     app.register_blueprint(rota_pagamentos)
     app.register_blueprint(rota_actividades)
+    app.register_blueprint(rota_dashboard)
 
     # 🔹 Injeta cores personalizadas nos templates
     @app.context_processor

@@ -122,11 +122,19 @@ def importar_formacoes():
 
     df.columns = [_norm(c) for c in df.columns]
 
+    col_contrl = _pick(df.columns, ['nome'], ['nome'])
+    col_comun = _pick(df.columns, ['comuna'], ['comuna'])
+    col_tel = _pick(df.columns, ['telefone'], ['telefone'])
+    col_bi = _pick(df.columns, ['bi'], ['bi'])
+    col_iban = _pick(df.columns, ['iban'], ['iban'])
+
     col_nome = _pick(df.columns, ['nome'], ['nome'])
     col_mun  = _pick(df.columns, ['municipio'], ['municip'])
     col_cat  = _pick(df.columns, ['categoria'], ['categoria','funcao','funca','func'])
     col_val  = _pick(df.columns, ['valor_trans'], ['valor_trans','valor'])
     col_dias = _pick(df.columns, ['numdias'], ['dias','numdias'])
+
+
 
     if not all([col_nome, col_mun, col_cat, col_val, col_dias]):
         flash('Colunas esperadas não encontradas (nome, município, categoria, valor_trans, numDias).', 'danger')
@@ -148,12 +156,28 @@ def importar_formacoes():
         valor = to_num(r[col_val])
         dias  = to_num(r[col_dias])
         reg = PagamentoFormacao(
+
+
+
+
+            num_de_control_formacoes=str(r[col_contrl]).strip() if col_contrl else "",
             nome=str(r[col_nome]).strip(),
-            municipio=str(r[col_mun]).strip(),
             categoria=str(r[col_cat]).strip(),
+            municipio=str(r[col_mun]).strip(),
+            comuna=str(r[col_comun]).strip() if col_comun else "",
+            telefone_formacoes=str(r[col_tel]).strip() if col_tel else "",
+            numero_bi_formacoes=str(r[col_bi]).strip() if col_bi else "",
+            iban_formacoes=str(r[col_iban]).strip() if col_iban else "",
             valor_trans=valor,
             numDias=dias,
             total_receber=valor * dias
+
+
+
+
+
+
+
         )
         db.session.add(reg)
 
@@ -179,14 +203,18 @@ def importar_dias():
 
     df.columns = [_norm(c) for c in df.columns]
 
+    col_id = _pick(df.columns, ['id'], ['id'])
     col_nome = _pick(df.columns, ['nome'], ['nome'])
+    col_bi = _pick(df.columns, ['num_bi'], ['num_bi'])
+    col_tel = _pick(df.columns, ['telefone'], ['telefone'])
     col_mun  = _pick(df.columns, ['municipio'], ['municip'])
+    col_ibn = _pick(df.columns, ['iban'], ['iban'])
+    col_dati = _pick(df.columns, ['data_inicio'], ['data_inicio'])
+    col_datf = _pick(df.columns, ['data_fim'], ['data_fim'])
     col_cat  = _pick(df.columns, ['categoria'], ['categoria','funcao','funca','func'])
     col_val  = _pick(df.columns, ['valor_trans'], ['valor_trans','valor'])
     col_dias = _pick(df.columns, ['numdias'], ['dias','numdias'])
-    col_t    = _pick(df.columns, ['transporte'], ['transporte'])
-    col_l    = _pick(df.columns, ['lanche'], ['lanche'])
-    col_v    = _pick(df.columns, ['saldo_voz','voz'], ['saldo_voz','voz'])
+
 
     if not all([col_nome, col_mun, col_cat, col_val, col_dias]):
         flash('Colunas esperadas não encontradas (nome, município, categoria, valor_trans, numDias).', 'danger')
@@ -220,14 +248,17 @@ def importar_dias():
             valor = to_num(r.get(col_val))
             dias  = to_num(r.get(col_dias))
             reg = PagamentoDiaTrabalho(
+
                 nome=str(r[col_nome]).strip(),
+                num_bi=str(r[col_bi]).strip() if col_bi else "",
+                telefone=str(r[col_tel]).strip() if col_tel else "",
                 municipio=str(r[col_mun]).strip(),
+                iban=str(r[col_ibn]).strip() if col_ibn else "",
+                data_inicio=str(r[col_dati]).strip() if col_dati else "",
+                data_fim=str(r[col_datf]).strip() if col_datf else "",
                 categoria=str(r[col_cat]).strip() if col_cat else "",
                 valor_trans=valor,
                 numDias=dias,
-                transporte=_map_status(r[col_t]) if col_t else "NÃO PAGO",
-                lanche=_map_status(r[col_l]) if col_l else "NÃO PAGO",
-                saldo_voz=_map_status(r[col_v]) if col_v else "NÃO PAGO",
                 total_receber=valor * dias
             )
             db.session.add(reg)
@@ -272,9 +303,21 @@ def api_pagamentos(tipo):
             q = q.filter_by(municipio=mun)
         if cat.lower() != 'todas':
             q = q.filter_by(categoria=cat)
+
         dados = [{
-            'nome': x.nome, 'municipio': x.municipio, 'categoria': x.categoria,
-            'valor_trans': x.valor_trans, 'numDias': x.numDias, 'total_receber': x.total_receber
+            'id': x.id,
+            'num_de_control_formacoes': x.num_de_control_formacoes,
+            'nome': x.nome,
+            'categoria': x.categoria,
+            'municipio': x.municipio,
+            'comuna': x.comuna,
+            'telefone_formacoes': x.telefone_formacoes,
+            'numero_bi_formacoes': x.numero_bi_formacoes,
+            'iban_formacoes': x.iban_formacoes,
+            'valor_trans': x.valor_trans,
+            'numDias': x.numDias,
+            'total_receber': x.total_receber
+
         } for x in q.all()]
     else:
         q = PagamentoDiaTrabalho.query
@@ -286,15 +329,19 @@ def api_pagamentos(tipo):
 
         # ✅ devolver categoria e valor_trans (eram os que faltavam)
         dados = [{
+            'id': x.id,
             'nome': x.nome,
+            'num_bi':x.num_bi,
+            'telefone':x.telefone,
             'municipio': x.municipio,
+            'iban':x.iban,
+            'data_inicio':x.data_inicio,
+            'data_fim':x.data_fim,
             'categoria': x.categoria,
             'valor_trans': x.valor_trans,
             'numDias': x.numDias,
             'total_receber': x.total_receber,
-            'transporte': x.transporte,
-            'lanche': x.lanche,
-            'saldo_voz': x.saldo_voz
+
         } for x in q.all()]
 
     total = len(dados)
