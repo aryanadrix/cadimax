@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="CDM-BIÉ: FINAL V">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +177,23 @@
       <option name="project" value="LOCAL" />
       <updated>1760556680647</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="CDM-BIÉ: FINAL V">
+      <option name="closed" value="true" />
+      <created>1760558615477</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1760558615477</updated>
+    </task>
+    <task id="LOCAL-00013" summary="CDM-BIÉ: FINAL V">
+      <option name="closed" value="true" />
+      <created>1760560974229</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1760560974230</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
