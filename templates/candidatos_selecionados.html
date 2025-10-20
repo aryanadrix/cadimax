@@ -213,10 +213,34 @@ new Chart(document.getElementById('graficoMunicipio'), {
   data: { labels: {{ municipios|tojson }}, datasets: [{ label: 'Por Município', data: {{ dados_municipio|tojson }}, borderWidth: 1 }] },
   options: { responsive: true, scales: { y: { beginAtZero: true } } }
 });
+
+
+
 new Chart(document.getElementById('graficoVaga'), {
-  type: 'pie',
-  data: { labels: {{ vagas|tojson }}, datasets: [{ label: 'Por Vaga', data: {{ dados_vaga|tojson }} }] },
-  options: { responsive: true }
+
+  type: 'bar',
+  data: {
+    labels: {{ vagas|tojson }},
+    datasets: [{
+        label: 'Por Vaga',
+        data: {{ dados_vaga|tojson }},
+         backgroundColor: [
+           '#fb6e2b', '#ff9800', '#fbc02d', '#8bc34a', '#03a9f4',
+           '#e91e63', '#9c27b0', '#009688', '#795548'
+           ],
+        borderWidth: 1
+       }]
+       },
+    options: {
+        responsive: true,
+        indexAxis: 'y',
+              plugins: {
+                    legend: { display: false },
+                    title: {display: true, text: 'Distribuição de Candidatos por Vagas'}
+                    }
+
+        //scales: { x: { beginAtZero: true, ticks: { precision: 0 }}}
+    }
 });
 </script>
     </div>
