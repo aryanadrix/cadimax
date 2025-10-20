@@ -83,6 +83,9 @@
       </div>
       <div class="modal-body">
         <form id="formEditar" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
           <input type="hidden" id="edit_id">
           <div class="row g-2">
             <div class="col-md-6">
