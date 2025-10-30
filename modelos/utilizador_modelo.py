@@ -1,6 +1,6 @@
 # modelos/utilizador_modelo.py
-#from baseDados.conexao import db
-#from datetime import datetime
+from baseDados.conexao import db
+from datetime import datetime
 
 #class Utilizador(db.Model):
 #    __tablename__ = "utilizadores"
