@@ -51,6 +51,7 @@ def create_app():
         from modelos.pag_formacoes import PagamentoFormacao
         from modelos.pag_dias_trabalho import PagamentoDiaTrabalho
         from modelos.dashboard_dados import DashboardDados
+
         if os.getenv('FLASK_ENV') != 'production':
             db.create_all()
 
@@ -64,6 +65,7 @@ def create_app():
     from rotas.pagamentos_rotas import rota_pagamentos
     from rotas.actividades_rotas import rota_actividades
     from rotas.dashboard_rotas import rota_dashboard
+    from rotas.gest_documentos_rotas import rota_documentos
 
     app.register_blueprint(rota_login)
     app.register_blueprint(rota_index)
@@ -74,6 +76,7 @@ def create_app():
     app.register_blueprint(rota_pagamentos)
     app.register_blueprint(rota_actividades)
     app.register_blueprint(rota_dashboard)
+    app.register_blueprint(rota_documentos)
 
     @app.context_processor
     def inject_cores():

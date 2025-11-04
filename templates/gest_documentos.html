@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+<style>
+  .sidebar {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 15px;
+    height: 100%;
+  }
+
+  .sidebar h5 {
+    color: var(--cor-principal, #fb6e2b);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .sidebar .list-group-item {
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sidebar .list-group-item:hover,
+  .sidebar .list-group-item.active {
+    background: var(--cor-principal, #fb6e2b);
+    color: #fff;
+  }
+
+  .sidebar .badge {
+    font-size: 0.75rem;
+    background: #222;
+    color: #fff;
+  }
+
+  .table-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 15px;
+    height: 550px;
+    overflow-y: auto;
+  }
+
+  .form-control, .form-select {
+    font-size: 0.9rem;
+  }
+
+  .btn {
+    font-size: 0.85rem;
+  }
+
+  /* Badge animado de novo upload */
+  .badge-novo {
+    background: #28a745;
+    color: #fff;
+    border-radius: 10px;
+    padding: 3px 8px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    animation: fadeOut 5s forwards;
+  }
+
+  @keyframes fadeOut {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; display: none; }
+  }
+
+
+
+
+/* Fixar cabeçalho da tabela */
+.table-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  height: 550px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background: #212529; /* mesma cor do thead */
+  color: #fff;
+  z-index: 2;
+  text-align: left;
+}
+
+</style>
+
+<div class="container-fluid mt-4" style="margin: auto;">
+  <div class="row">
+    <!-- SIDEBAR -->
+    <div class="col-md-3 mb-3">
+      <div class="sidebar">
+        <h5>📂 Categorias</h5>
+        <div class="list-group">
+          {% for cat, count in contagens.items() %}
+          <a href="#" class="list-group-item" data-cat="{{ cat }}">
+            <span>{{ cat }}</span>
+            <span class="badge">{{ count }}</span>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="col-md-9">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold">Gestão de Documentos</h4>
+        <form class="d-flex" method="get" action="{{ url_for('rota_documentos.documentos') }}">
+          <input type="text" name="q" class="form-control me-2" placeholder="Pesquisar documento..." value="{{ termo }}">
+          <button class="btn btn-primary">Pesquisar</button>
+        </form>
+      </div>
+
+      <!-- FORMULÁRIO -->
+      <div class="bg-white p-3 rounded shadow-sm mb-3 position-relative">
+        <form method="POST" enctype="multipart/form-data">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="row g-2">
+    <div class="col-md-4">
+      <label class="form-label">Categoria</label>
+      <select name="categoria" class="form-select" required>
+        <option value="">Selecionar...</option>
+        {% for cat in contagens.keys() %}
+        <option value="{{ cat }}">{{ cat }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Nível</label>
+      <select name="nivel" class="form-select" required>
+        <option value="">Selecionar...</option>
+        {% for n in ["Nacional", "Provincial", "Municipal", "Comunal"] %}
+        <option value="{{ n }}">{{ n }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Município</label>
+      <input type="text" name="municipio" class="form-control" placeholder="Opcional">
+    </div>
+
+    <!-- Campo de ficheiro em linha separada -->
+    <div class="col-md-10 mt-2">
+      <label class="form-label">Ficheiro</label>
+      <input type="file" name="ficheiro" class="form-control" required>
+    </div>
+
+    <div class="col-md-2 mt-4 d-flex align-items-end justify-content-end">
+      <button class="btn btn-success w-100">Importar Documento</button>
+    </div>
+  </div>
+</form>
+        {% if novo_upload %}
+          <span class="badge-novo position-absolute top-0 end-0 m-3">Novo Upload ✅</span>
+        {% endif %}
+      </div>
+
+      <!-- LISTAGEM -->
+      <div class="table-container">
+        <table class="table table-striped align-middle mb-0" id="tabelaDocumentos">
+          <thead class="table-dark">
+            <tr>
+              <th>Nome</th>
+              <th>Categoria</th>
+              <th>Nível</th>
+              <th>Município</th>
+              <th>Responsável</th>
+              <th>Data Upload</th>
+              <th class="text-center">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyDocs">
+            {% for d in documentos %}
+            <tr data-categoria="{{ d.categoria }}">
+              <td>{{ d.nome }}</td>
+              <td>{{ d.categoria }}</td>
+              <td>{{ d.nivel }}</td>
+              <td>{{ d.municipio or '-' }}</td>
+              <td>{{ d.criado_por }}</td>
+              <td>{{ d.data_upload.strftime('%d/%m/%Y %H:%M') }}</td>
+              <td class="text-center">
+  <button class="btn btn-sm btn-outline-secondary btn-ver"
+          data-file="{{ url_for('rota_documentos.ver_documento', filename=d.caminho.replace('documentos/', '')) }}"
+          data-nome="{{ d.nome }}">
+    Ver
+  </button>
+
+  <a href="{{ url_for('rota_documentos.download_documento', filename=d.caminho.replace('documentos/', '')) }}"
+     class="btn btn-sm btn-success">Baixar</a>
+
+
+                  <form method="POST"
+      action="{{ url_for('rota_documentos.apagar_documento', id=d.id) }}"
+      style="display:inline;"
+      onsubmit="return confirm('Tens certeza que queres apagar este documento?');">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button class="btn btn-sm btn-danger">🗑️</button>
+</form>
+
+</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7" class="text-center text-muted">Nenhum documento disponível.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL VISUALIZAÇÃO -->
+<div class="modal fade" id="modalVerDoc" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-white">
+        <h5 class="modal-title" id="tituloDoc">Visualizar Documento</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="height:80vh;">
+        <iframe id="iframeDoc" src="" width="100%" height="100%" style="border:none;"></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // 🧮 Contador e filtro de categorias
+  document.querySelectorAll(".sidebar .list-group-item").forEach(item => {
+    item.addEventListener("click", function() {
+      const categoria = this.getAttribute("data-cat");
+      document.querySelectorAll("#tbodyDocs tr").forEach(row => {
+        row.style.display = (row.dataset.categoria === categoria) ? "" : "none";
+      });
+      document.querySelectorAll(".sidebar .list-group-item").forEach(i => i.classList.remove("active"));
+      this.classList.add("active");
+    });
+  });
+
+  // 👁️ Modal de visualização
+  document.querySelectorAll(".btn-ver").forEach(btn => {
+    btn.addEventListener("click", function() {
+      const url = this.getAttribute("data-file");
+      const nome = this.getAttribute("data-nome");
+      document.getElementById("iframeDoc").src = url;
+      document.getElementById("tituloDoc").textContent = nome;
+      const modal = new bootstrap.Modal(document.getElementById("modalVerDoc"));
+      modal.show();
+    });
+  });
+});
+</script>
+
+{% endblock %}
