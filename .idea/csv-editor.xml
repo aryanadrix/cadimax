@@ -10,13 +10,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/static/uploads/selecionados/bd_selecion.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value=";" />
-            </Attribute>
-          </value>
-        </entry>
       </map>
     </option>
   </component>

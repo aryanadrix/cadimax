@@ -84,7 +84,13 @@ def create_app():
 
     return app
 
-
 if __name__ == '__main__':
     app = create_app()
+
+    # 🔹 Cria as tabelas se ainda não existirem (útil no Render)
+    with app.app_context():
+        from baseDados.conexao import db
+        db.create_all()
+
+    # 🔹 Inicia o servidor normalmente
     app.run(debug=os.environ.get('FLASK_DEBUG', 'False').lower() == 'true')
