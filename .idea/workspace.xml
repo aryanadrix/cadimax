@@ -4,16 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="CDM-BIÉ: FINAL NAVBAR grafi">
-      <change afterPath="$PROJECT_DIR$/modelos/gestao_documento_modelo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rotas/gest_documentos_rotas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/gest_documentos.html" afterDir="false" />
+    <list default="true" id="63cae5a4-38f0-4be1-9693-b8fa85ec47a7" name="Changes" comment="CDM-BIÉ: DOCUMENTOS GESTAO">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance/local.db" beforeDir="false" afterPath="$PROJECT_DIR$/instance/local.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/instance/uploads/5_dashboard.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/instance/uploads/5_dashboard.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/configuracoes.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/configuracoes.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/gest_documentos.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/gest_documentos.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -231,7 +224,23 @@
       <option name="project" value="LOCAL" />
       <updated>1761000848208</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="CDM-BIÉ: DOCUMENTOS GESTAO">
+      <option name="closed" value="true" />
+      <created>1762215755845</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1762215755848</updated>
+    </task>
+    <task id="LOCAL-00019" summary="CDM-BIÉ: DOCUMENTOS GESTAO">
+      <option name="closed" value="true" />
+      <created>1762217153762</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1762217153762</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -260,6 +269,7 @@
     <MESSAGE value="CDM-BIÉ: FINAL NAVBAR AJUSTADO" />
     <MESSAGE value="CDM-BIÉ: FINAL NAVBAR editar_public" />
     <MESSAGE value="CDM-BIÉ: FINAL NAVBAR grafi" />
-    <option name="LAST_COMMIT_MESSAGE" value="CDM-BIÉ: FINAL NAVBAR grafi" />
+    <MESSAGE value="CDM-BIÉ: DOCUMENTOS GESTAO" />
+    <option name="LAST_COMMIT_MESSAGE" value="CDM-BIÉ: DOCUMENTOS GESTAO" />
   </component>
 </project>
